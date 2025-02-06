@@ -2,6 +2,7 @@
 defineProps<{
   label: string;
   type?: string;
+  customInputClass?: string;
 }>();
 </script>
 
@@ -11,9 +12,14 @@ defineProps<{
       label
     }}</label>
 
-    <input
-      :type="type || 'text'"
-      class="py-3 px-5 border-[0.06rem] border-[var(--beige-500)] rounded-[0.5rem] var(--white) leading-[0.313rem]"
-    />
+    <div class="relative">
+      <slot></slot>
+
+      <input
+        :type="type || 'text'"
+        class="w-full py-3 px-5 border-[0.06rem] border-[var(--beige-500)] rounded-[0.5rem] var(--white) leading-[0.313rem]"
+        :class="customInputClass"
+      />
+    </div>
   </div>
 </template>

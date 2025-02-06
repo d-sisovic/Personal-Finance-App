@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import ButtonElement from '../ui/ButtonElement.vue';
+import { ref } from 'vue';
 import InputElement from '../ui/InputElement.vue';
+import ButtonElement from '../ui/ButtonElement.vue';
+
+const passwordVisible = ref<boolean>(false);
 
 const onLogin = () => {
   console.log('heyy');
 };
+
+const onTogglePasswordVisibility = (visible: boolean) => (passwordVisible.value = visible);
 </script>
 
 <template>
@@ -21,16 +26,33 @@ const onLogin = () => {
 
         <InputElement label="Email" type="email" class="mb-4" />
 
-        <InputElement label="Password" type="password" class="mb-8" />
+        <InputElement
+          label="Password"
+          :type="passwordVisible ? 'text' : 'password'"
+          class="mb-8"
+          custom-input-class="pr-[2.5rem]"
+        >
+          <img
+            src="@/assets/images/icon-show-password.svg"
+            alt="show-password"
+            class="absolute right-5 top-[50%] -translate-y-[50%] cursor-pointer"
+            @mousedown="onTogglePasswordVisibility(true)"
+            @mouseup="onTogglePasswordVisibility(false)"
+            @mouseleave="onTogglePasswordVisibility(false)"
+            @touchstart="onTogglePasswordVisibility(true)"
+            @touchend="onTogglePasswordVisibility(false)"
+            @touchcancel="onTogglePasswordVisibility(false)"
+          />
+        </InputElement>
 
         <ButtonElement label="Login" :click-handler="onLogin" class="mb-8" />
 
         <div class="text-[0.88rem]">
           <p class="font-normal leading-[150%] text-[var(--grey-500)]">
             Need to create an account?
-            <span class="underline font-bold text-[var(--grey-900)] hover:cursor-pointer ml-2"
-              >Sign Up</span
-            >
+            <span class="underline font-bold text-[var(--grey-900)] hover:cursor-pointer ml-2">
+              Sign Up
+            </span>
           </p>
         </div>
       </div>
