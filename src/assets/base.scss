@@ -1,0 +1,35 @@
+@use 'sass:map';
+
+$breakpoints: (
+  mobile: 23.4375em,
+  desktop: 90em
+);
+
+@mixin mq($key) {
+  $size: map.get($breakpoints, $key);
+
+  @media (min-width: $size) {
+    @content;
+  }
+}
+
+@font-face {
+  font-family: 'Public-Sans';
+  src: url('@/assets/fonts/PublicSans-VariableFont_wght.ttf');
+}
+
+*,
+*::before,
+*::after {
+  margin: 0px;
+  padding: 0px;
+  font-weight: normal;
+  box-sizing: border-box;
+  font-family: 'Public-Sans';
+}
+
+img {
+  height: auto;
+  display: block;
+  max-width: 100%;
+}
