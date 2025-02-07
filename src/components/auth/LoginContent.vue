@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import AuthHeader from './AuthHeader.vue';
 import InputElement from '../ui/InputElement.vue';
 import ButtonElement from '../ui/ButtonElement.vue';
+import AuthLeftDesktopSection from './AuthLeftDesktopSection.vue';
 
 const passwordVisible = ref<boolean>(false);
 
@@ -14,28 +16,9 @@ const onTogglePasswordVisibility = (visible: boolean) => (passwordVisible.value 
 
 <template>
   <div class="flex flex-col h-screen desktop:flex-row desktop:bg-[var(--beige-100)]">
-    <div class="hidden desktop:block m-5 w-full max-w-[35rem]">
-      <div
-        class="h-full w-full rounded-xl bg-[url('@/assets/images/illustration-authentication.svg')] bg-cover bg-no-repeat bg-top p-10 flex flex-col justify-between items-start"
-      >
-        <img src="@/assets/images/logo-large.svg" alt="logo" class="h-[1.375rem]" />
+    <AuthLeftDesktopSection />
 
-        <div class="flex flex-col gap-6 text-[var(--white)]">
-          <h3 class="text-[2rem] font-bold leading-[120%] max-w-[25rem] white-text-shadow">
-            Keep track of your money and save for your future
-          </h3>
-
-          <p class="text-[0.88rem] leading-[150%] font-normal white-text-shadow">
-            Personal finance app puts you in control of your spending. Track transactions, set
-            budgets, and add to savings pots easily.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="py-6 px-10 bg-[var(--grey-900)] rounded-b-lg flex justify-center desktop:hidden">
-      <img src="@/assets/images/logo-small.svg" alt="login" />
-    </div>
+    <AuthHeader />
 
     <div class="py-6 px-4 bg-[var(--beige-100)] flex-1 flex justify-center items-center">
       <div class="py-6 px-5 rounded-xl bg-[var(--white)] w-full max-w-[35rem] tablet:p-8">
@@ -69,9 +52,12 @@ const onTogglePasswordVisibility = (visible: boolean) => (passwordVisible.value 
         <div class="text-[0.88rem] tablet:text-center">
           <p class="font-normal leading-[150%] text-[var(--grey-500)]">
             Need to create an account?
-            <span class="underline font-bold text-[var(--grey-900)] hover:cursor-pointer ml-2">
+            <router-link
+              :to="{ name: 'signup' }"
+              class="underline font-bold text-[var(--grey-900)] hover:cursor-pointer ml-2"
+            >
               Sign Up
-            </span>
+            </router-link>
           </p>
         </div>
       </div>

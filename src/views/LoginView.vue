@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import LoginHeader from '@/components/login/LoginHeader.vue';
+import LoginContent from '@/components/auth/LoginContent.vue';
 </script>
 
 <template>
-  <LoginHeader />
+  <LoginContent />
 </template>
