@@ -20,42 +20,47 @@ const passwordInputRef = ref<string>('');
 const signupInProgress = ref<boolean>(false);
 const passwordVisibleRef = ref<boolean>(false);
 
+const validateInput = (name: string, email: string, password: string): string | null => {
+  if (!name.trim() || name.trim().length < 3) {
+    return 'Name is required and at least 3 characters long';
+  }
+
+  if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+    return 'Email format must be valid';
+  }
+
+  if (password.trim().length < 8) {
+    return 'Passwords must be at least 8 characters';
+  }
+
+  return null;
+};
+
 const onSignup = async () => {
   signupInProgress.value = true;
 
-  const nameValue = nameInputRef.value;
-  const emailValue = emailInputRef.value;
-  const passwordValue = passwordInputRef.value;
+  const name = nameInputRef.value.trim();
+  const email = emailInputRef.value.trim();
+  const password = passwordInputRef.value.trim();
 
-  if (!nameValue.trim() || nameValue.trim().length < 3) {
-    snackbar.add({ type: 'error', text: 'Name is required and at least 3 characters long' });
-    signupInProgress.value = false;
-    return;
-  }
+  const errorMessage = validateInput(name, email, password);
 
-  if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailValue)) {
-    snackbar.add({ type: 'error', text: 'Email format must be valid' });
-    signupInProgress.value = false;
-    return;
-  }
-
-  if (passwordValue.trim().length < 8) {
-    snackbar.add({ type: 'error', text: 'Passwords must be at least 8 characters' });
+  if (errorMessage) {
+    snackbar.add({ type: 'error', text: errorMessage });
     signupInProgress.value = false;
     return;
   }
 
   try {
     const auth = getAuth();
-    const userCredential = await createUserWithEmailAndPassword(auth, emailValue, passwordValue);
-
-    await updateProfile(userCredential.user, { displayName: nameValue });
-
-    router.push({ name: ROUTES.LOGIN });
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(userCredential.user, { displayName: name });
 
     snackbar.add({ type: 'success', text: 'Account created successfully. Please login!' });
+    router.push({ name: ROUTES.LOGIN });
   } catch (error: unknown) {
     snackbar.add({ type: 'error', text: (error as Error).message });
+  } finally {
     signupInProgress.value = false;
   }
 };
