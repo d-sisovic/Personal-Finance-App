@@ -1,24 +1,55 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useFirebaseApp } from 'vuefire';
 import AuthHeader from './AuthHeader.vue';
+import { useSnackbar } from 'vue3-snackbar';
 import { ROUTES } from '@/ts/enums/routes.enum';
 import InputElement from '../ui/InputElement.vue';
 import ButtonElement from '../ui/ButtonElement.vue';
+import SpinnerElement from '../ui/SpinnerElement.vue';
 import AuthLeftDesktopSection from './AuthLeftDesktopSection.vue';
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+
+const email = ref<string>('');
+const password = ref<string>('');
 
 const passwordVisible = ref<boolean>(false);
+const loginInProgress = ref<boolean>(false);
 
-const onLogin = () => {
-  console.log('heyy');
+const router = useRouter();
+const snackbar = useSnackbar();
+const firebaseApp = useFirebaseApp();
+const auth = getAuth(firebaseApp);
+
+const onLogin = async () => {
+  loginInProgress.value = true;
+
+  try {
+    await signInWithEmailAndPassword(auth, email.value, password.value);
+
+    router.push({ name: ROUTES.HOME });
+  } catch (error: unknown) {
+    snackbar.add({ type: 'error', text: (error as Error).message });
+  } finally {
+    loginInProgress.value = false;
+  }
 };
 
 const onTogglePasswordVisibility = (visible: boolean) => (passwordVisible.value = visible);
+
+onMounted(() => {
+  onAuthStateChanged(auth, (user) => {
+    if (!user) return;
+
+    router.push({ name: ROUTES.HOME });
+  });
+});
 </script>
 
 <template>
   <div class="flex flex-col h-screen desktop:flex-row desktop:bg-[var(--beige-100)]">
     <AuthLeftDesktopSection />
-
     <AuthHeader />
 
     <div class="py-6 px-4 bg-[var(--beige-100)] flex-1 flex justify-center items-center">
@@ -27,9 +58,10 @@ const onTogglePasswordVisibility = (visible: boolean) => (passwordVisible.value 
           Login
         </h3>
 
-        <InputElement label="Email" type="email" class="mb-4" />
+        <InputElement v-model="email" label="Email" type="email" class="mb-4" />
 
         <InputElement
+          v-model="password"
           label="Password"
           :type="passwordVisible ? 'text' : 'password'"
           class="mb-8"
@@ -48,7 +80,9 @@ const onTogglePasswordVisibility = (visible: boolean) => (passwordVisible.value 
           />
         </InputElement>
 
-        <ButtonElement label="Login" :click-handler="onLogin" class="mb-8" />
+        <ButtonElement label="Login" :click-handler="onLogin" class="mb-8">
+          <SpinnerElement size="1.25" v-if="loginInProgress" />
+        </ButtonElement>
 
         <div class="text-[0.88rem] tablet:text-center">
           <p class="font-normal leading-[150%] text-[var(--grey-500)]">

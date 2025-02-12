@@ -1,6 +1,8 @@
+import { useFirebaseApp } from 'vuefire';
 import HomeView from '../views/HomeView.vue';
 import { ROUTES } from '@/ts/enums/routes.enum';
 import { createRouter, createWebHistory } from 'vue-router';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,6 +11,7 @@ const router = createRouter({
       path: '/',
       name: ROUTES.HOME,
       component: HomeView,
+      meta: { requiresAuth: true },
     },
     {
       path: '/login',
@@ -21,6 +24,25 @@ const router = createRouter({
       component: () => import('../views/SignupView.vue'),
     },
   ],
+});
+
+router.beforeEach((to, _, next) => {
+  const firebaseApp = useFirebaseApp();
+  const auth = getAuth(firebaseApp);
+
+  if (!to.matched.some((record) => record.meta.requiresAuth)) {
+    next();
+    return;
+  }
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      next();
+      return;
+    }
+
+    next({ name: ROUTES.LOGIN });
+  });
 });
 
 export default router;
