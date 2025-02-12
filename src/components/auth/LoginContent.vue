@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import AuthHeader from './AuthHeader.vue';
+import { ROUTES } from '@/ts/enums/routes.enum';
 import InputElement from '../ui/InputElement.vue';
 import ButtonElement from '../ui/ButtonElement.vue';
 import AuthLeftDesktopSection from './AuthLeftDesktopSection.vue';
@@ -53,7 +54,7 @@ const onTogglePasswordVisibility = (visible: boolean) => (passwordVisible.value 
           <p class="font-normal leading-[150%] text-[var(--grey-500)]">
             Need to create an account?
             <router-link
-              :to="{ name: 'signup' }"
+              :to="{ name: ROUTES.SIGNUP }"
               class="underline font-bold text-[var(--grey-900)] hover:cursor-pointer ml-2"
             >
               Sign Up
