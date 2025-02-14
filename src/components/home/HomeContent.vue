@@ -2,6 +2,7 @@
 import InfoCardElement from '@/components/ui/InfoCardElement.vue';
 import CardContentElement from '@/components/ui/CardContentElement.vue';
 import InfoColorCardElement from '@/components/ui/InfoColorCardElement.vue';
+import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
 </script>
 
 <template>
@@ -16,32 +17,48 @@ import InfoColorCardElement from '@/components/ui/InfoColorCardElement.vue';
       <InfoCardElement label="Expenses" value="$1,700.50" />
     </div>
 
-    <div class="mt-8">
-      <CardContentElement heading="Pots">
-        <div class="p-4 rounded-xl bg-[var(--beige-100)] flex items-center mt-5 gap-4">
-          <img src="@/assets/images/icon-pot.svg" alt="pot" class="w-10 h-10" />
+    <CardContentElement heading="Pots" class="mt-8">
+      <div class="p-4 rounded-xl bg-[var(--beige-100)] flex items-center mt-5 gap-4">
+        <img src="@/assets/images/icon-pot.svg" alt="pot" class="w-10 h-10" />
 
-          <div>
-            <h3 class="leading-[150%] font-normal text-[0.88rem] text-[var(--grey-500)]">
-              Total Saved
-            </h3>
+        <div>
+          <h3 class="leading-[150%] font-normal text-[0.88rem] text-[var(--grey-500)]">
+            Total Saved
+          </h3>
 
-            <p class="mt-[0.688rem] leading-[120%] font-bold text-[2rem] text-[var(--grey-900)]">
-              $850
-            </p>
-          </div>
+          <p class="mt-[0.688rem] leading-[120%] font-bold text-[2rem] text-[var(--grey-900)]">
+            $850
+          </p>
         </div>
+      </div>
 
-        <div class="mt-5 flex flex-wrap gap-4">
-          <InfoColorCardElement label="Savings" value="$159" color="bg-[var(--green)]" />
+      <div class="mt-5 flex flex-wrap gap-4">
+        <InfoColorCardElement label="Savings" value="$159" color="bg-[var(--green)]" />
 
-          <InfoColorCardElement label="Gift" value="$40" color="bg-[var(--cyan)]" />
+        <InfoColorCardElement label="Gift" value="$40" color="bg-[var(--cyan)]" />
 
-          <InfoColorCardElement label="Concert Ticket" value="$110" color="bg-[var(--navy)]" />
+        <InfoColorCardElement label="Concert Ticket" value="$110" color="bg-[var(--navy)]" />
 
-          <InfoColorCardElement label="New Laptop" value="$10" color="bg-[var(--yellow)]" />
-        </div>
-      </CardContentElement>
-    </div>
+        <InfoColorCardElement label="New Laptop" value="$10" color="bg-[var(--yellow)]" />
+      </div>
+    </CardContentElement>
+
+    <CardContentElement heading="Transactions" actionLabel="View All" class="mt-4">
+      <div class="mt-8 flex flex-col gap-6">
+        <TransactionCardElement
+          image="emma-richardson.jpg"
+          name="Emma Richardson"
+          :value="75.5"
+          date="19 Aug 2024"
+        />
+
+        <TransactionCardElement
+          image="emma-richardson.jpg"
+          name="Savory Bites Bistro"
+          :value="-55.5"
+          date="19 Aug 2024"
+        />
+      </div>
+    </CardContentElement>
   </div>
 </template>
