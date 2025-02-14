@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 const props = defineProps<{
   size: string;
 }>();
 
-const spinnerSize = `${props.size}rem`;
+const spinnerSize = computed(() => `${props.size}rem`);
 </script>
 
 <template>

@@ -53,10 +53,32 @@ import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
         />
 
         <TransactionCardElement
-          image="emma-richardson.jpg"
+          image="savory-bites-bistro.jpg"
           name="Savory Bites Bistro"
           :value="-55.5"
           date="19 Aug 2024"
+        />
+
+        <TransactionCardElement
+          image="daniel-carter.jpg"
+          name="Daniel Carter"
+          :value="-42.3"
+          date="18 Aug 2024"
+        />
+
+        <TransactionCardElement
+          image="sun-park.jpg"
+          name="Sun Park"
+          :value="120.0"
+          date="17 Aug 2024"
+        />
+
+        <TransactionCardElement
+          :showLine="false"
+          image="urban-services-hub.jpg"
+          name="Urban Services Hub"
+          :value="-65"
+          date="17 Aug 2024"
         />
       </div>
     </CardContentElement>
