@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { onBeforeMount, ref } from 'vue';
 import { useFirebaseApp } from 'vuefire';
 import AuthHeader from './AuthHeader.vue';
 import { useSnackbar } from 'vue3-snackbar';
@@ -14,6 +14,7 @@ import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebas
 const email = ref<string>('');
 const password = ref<string>('');
 
+const isCheckingAuth = ref<boolean>(true);
 const passwordVisible = ref<boolean>(false);
 const loginInProgress = ref<boolean>(false);
 
@@ -27,7 +28,6 @@ const onLogin = async () => {
 
   try {
     await signInWithEmailAndPassword(auth, email.value, password.value);
-
     router.push({ name: ROUTES.HOME });
   } catch (error: unknown) {
     snackbar.add({ type: 'error', text: (error as Error).message });
@@ -38,17 +38,24 @@ const onLogin = async () => {
 
 const onTogglePasswordVisibility = (visible: boolean) => (passwordVisible.value = visible);
 
-onMounted(() => {
+onBeforeMount(() => {
   onAuthStateChanged(auth, (user) => {
-    if (!user) return;
+    if (user) {
+      router.push({ name: ROUTES.HOME });
+      return;
+    }
 
-    router.push({ name: ROUTES.HOME });
+    isCheckingAuth.value = false;
   });
 });
 </script>
 
 <template>
-  <div class="flex flex-col h-screen desktop:flex-row desktop:bg-[var(--beige-100)]">
+  <div v-if="isCheckingAuth" class="flex justify-center items-center h-screen">
+    <SpinnerElement size="3" />
+  </div>
+
+  <div v-else class="flex flex-col h-screen desktop:flex-row desktop:bg-[var(--beige-100)]">
     <AuthLeftDesktopSection />
     <AuthHeader />
 

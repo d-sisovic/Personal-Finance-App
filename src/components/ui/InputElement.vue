@@ -20,7 +20,7 @@ const emit = defineEmits(['update:modelValue']);
 
       <input
         :type="type || 'text'"
-        class="w-full py-3 px-5 border-[0.06rem] border-[var(--beige-500)] rounded-[0.5rem] var(--white) leading-[0.313rem]"
+        class="w-full py-3 px-5 border-[0.06rem] border-[var(--beige-500)] rounded-[0.5rem] leading-[0.313rem]"
         :class="customInputClass"
         :value="modelValue"
         @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"

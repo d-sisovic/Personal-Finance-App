@@ -8,7 +8,7 @@ const spinnerSize = `${props.size}rem`;
 
 <template>
   <div
-    :class="`border-2 border-gray-300 border-t-primary border-l-transparent rounded-full animate-spin`"
+    class="border-2 border-gray-300 border-t-primary border-l-transparent rounded-full animate-spin"
     :style="{ width: spinnerSize, height: spinnerSize }"
   ></div>
 </template>
