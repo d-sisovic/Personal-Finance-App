@@ -32,6 +32,7 @@ export default defineComponent({
     };
 
     const options = {
+      responsive: true,
       plugins: {
         tooltip: { enabled: false },
         legend: { display: false },
