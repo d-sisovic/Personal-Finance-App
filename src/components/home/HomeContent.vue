@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import InfoCardElement from '@/components/ui/InfoCardElement.vue';
 import CardContentElement from '@/components/ui/CardContentElement.vue';
+import InfoCardBillElement from '@/components/ui/InfoCardBillElement.vue';
 import InfoColorCardElement from '@/components/ui/InfoColorCardElement.vue';
 import DoughnutChartElement from '@/components/ui/DoughnutChartElement.vue';
 import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
@@ -87,6 +88,26 @@ import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
     <CardContentElement heading="Budgets" class="mt-6">
       <div class="mt-7">
         <DoughnutChartElement />
+
+        <div class="mt-4 flex flex-wrap gap-4">
+          <InfoColorCardElement label="Entertainment" value="$50" color="bg-[var(--green)]" />
+
+          <InfoColorCardElement label="Bills" value="$750" color="bg-[var(--cyan)]" />
+
+          <InfoColorCardElement label="Dining Out" value="$75" color="bg-[var(--yellow)]" />
+
+          <InfoColorCardElement label="Personal Care" value="$100" color="bg-[var(--navy)]" />
+        </div>
+      </div>
+    </CardContentElement>
+
+    <CardContentElement heading="Recurring Bills" class="mt-4">
+      <div class="mt-8 flex flex-col gap-3">
+        <InfoCardBillElement label="Paid Bills" color="var(--green)" value="$190.00" />
+
+        <InfoCardBillElement label="Total Upcoming" color="var(--yellow)" value="$194.98" />
+
+        <InfoCardBillElement label="Due Soon" color="var(--cyan)" value="$59.98" />
       </div>
     </CardContentElement>
   </div>
