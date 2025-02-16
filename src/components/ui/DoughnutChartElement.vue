@@ -33,14 +33,41 @@ export default defineComponent({
 
     const options = {
       plugins: {
-        tooltip: {
-          enabled: false,
-        },
-        legend: {
-          display: false,
-        },
+        tooltip: { enabled: false },
+        legend: { display: false },
       },
     };
+
+    const centerTextPlugin = {
+      id: 'centerText',
+      beforeDraw(chart: Chart) {
+        const { width, height, ctx } = chart;
+
+        ctx.save();
+
+        const mainText = '$338';
+        const subText = 'of $975 limit';
+
+        const centerX = width / 2;
+        const centerY = height / 2;
+
+        // Main Text Styling
+        ctx.font = 'bold 32px Public-Sans';
+        ctx.fillStyle = '##201F24';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(mainText, centerX, centerY - 10);
+
+        // Sub Text Styling
+        ctx.font = '12px Public-Sans';
+        ctx.fillStyle = '#696868';
+        ctx.fillText(subText, centerX, centerY + 23);
+
+        ctx.restore();
+      },
+    };
+
+    Chart.register(centerTextPlugin);
 
     return { data, options };
   },
