@@ -34,7 +34,7 @@ const formattedValue = computed(() => {
   <div>
     <div class="flex items-center justify-between flex-wrap gap-4">
       <div class="inline-flex items-center gap-4">
-        <img :src="imageSrc" :alt="name" class="rounded-full h-8 w-8" />
+        <img :src="imageSrc" :alt="name" class="rounded-full h-8 w-8 tablet:h-10 tablet:w-10" />
 
         <span class="leading-[150%] font-bold text-[0.88rem] text-[var(--grey-900)]">
           {{ name }}
