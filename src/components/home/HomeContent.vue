@@ -15,17 +15,17 @@ import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
       Overview
     </h1>
 
-    <div class="flex flex-wrap gap-3 tablet:justify-between">
+    <div class="flex flex-wrap gap-3 tablet:justify-between tablet:flex-nowrap">
       <InfoCardElement
         label="Current Balance"
         value="$4,836.00"
         :isLightMode="false"
-        class="w-full tablet:max-w-[13.313rem]"
+        class="w-full"
       />
 
-      <InfoCardElement label="Income" value="$3,814.25" class="w-full tablet:max-w-[13.313rem]" />
+      <InfoCardElement label="Income" value="$3,814.25" class="w-full" />
 
-      <InfoCardElement label="Expenses" value="$1,700.50" class="w-full tablet:max-w-[13.313rem]" />
+      <InfoCardElement label="Expenses" value="$1,700.50" class="w-full" />
     </div>
 
     <CardContentElement heading="Pots" class="mt-8">
