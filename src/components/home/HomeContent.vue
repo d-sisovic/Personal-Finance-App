@@ -2,6 +2,7 @@
 import InfoCardElement from '@/components/ui/InfoCardElement.vue';
 import CardContentElement from '@/components/ui/CardContentElement.vue';
 import InfoColorCardElement from '@/components/ui/InfoColorCardElement.vue';
+import DoughnutChartElement from '@/components/ui/DoughnutChartElement.vue';
 import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
 </script>
 
@@ -80,6 +81,12 @@ import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
           :value="-65"
           date="17 Aug 2024"
         />
+      </div>
+    </CardContentElement>
+
+    <CardContentElement heading="Budgets" class="mt-6">
+      <div class="mt-7">
+        <DoughnutChartElement />
       </div>
     </CardContentElement>
   </div>
