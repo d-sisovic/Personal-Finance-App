@@ -10,12 +10,12 @@ import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
 <template>
   <div class="py-6 px-4 min-h-screen tablet:py-8 tablet:px-10 desktop:py-8 desktop:px-10">
     <h1
-      class="leading-[120%] font-bold text-[2rem] text-[var(--grey-900)] mb-8 tablet:mb-[2.625rem] desktop:mb-8"
+      class="leading-[120%] font-bold text-[2rem] text-[var(--grey-900)] mb-8 tablet:mb-[2.625rem] desktop:mb-8 desktop:leading-[3.5rem]"
     >
       Overview
     </h1>
 
-    <div class="flex flex-wrap gap-3 tablet:justify-between tablet:flex-nowrap">
+    <div class="flex flex-wrap gap-3 tablet:justify-between tablet:flex-nowrap desktop:gap-6">
       <InfoCardElement
         label="Current Balance"
         value="$4,836.00"
@@ -28,104 +28,112 @@ import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
       <InfoCardElement label="Expenses" value="$1,700.50" class="w-full" />
     </div>
 
-    <CardContentElement heading="Pots" class="mt-8">
-      <div class="tablet:flex tablet:items-center gap-5">
-        <div
-          class="p-4 rounded-xl bg-[var(--beige-100)] flex items-center mt-5 gap-4 min-w-[15.438rem]"
-        >
-          <img src="@/assets/images/icon-pot.svg" alt="pot" class="w-10 h-10" />
+    <div class="desktop:flex desktop:gap-6 desktop:mt-6">
+      <div>
+        <CardContentElement heading="Pots" class="mt-8 desktop:mt-0">
+          <div class="tablet:flex tablet:items-center gap-5">
+            <div
+              class="p-4 rounded-xl bg-[var(--beige-100)] flex items-center mt-5 gap-4 min-w-[15.438rem]"
+            >
+              <img src="@/assets/images/icon-pot.svg" alt="pot" class="w-10 h-10" />
 
-          <div>
-            <h3 class="leading-[150%] font-normal text-[0.88rem] text-[var(--grey-500)]">
-              Total Saved
-            </h3>
+              <div>
+                <h3 class="leading-[150%] font-normal text-[0.88rem] text-[var(--grey-500)]">
+                  Total Saved
+                </h3>
 
-            <p class="mt-[0.688rem] leading-[120%] font-bold text-[2rem] text-[var(--grey-900)]">
-              $850
-            </p>
+                <p
+                  class="mt-[0.688rem] leading-[120%] font-bold text-[2rem] text-[var(--grey-900)]"
+                >
+                  $850
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-5 flex flex-wrap gap-4">
+              <InfoColorCardElement label="Savings" value="$159" color="bg-[var(--green)]" />
+
+              <InfoColorCardElement label="Gift" value="$40" color="bg-[var(--cyan)]" />
+
+              <InfoColorCardElement label="Concert Ticket" value="$110" color="bg-[var(--navy)]" />
+
+              <InfoColorCardElement label="New Laptop" value="$10" color="bg-[var(--yellow)]" />
+            </div>
           </div>
-        </div>
+        </CardContentElement>
 
-        <div class="mt-5 flex flex-wrap gap-4">
-          <InfoColorCardElement label="Savings" value="$159" color="bg-[var(--green)]" />
+        <CardContentElement heading="Transactions" actionLabel="View All" class="mt-6">
+          <div class="mt-8 flex flex-col gap-6">
+            <TransactionCardElement
+              image="emma-richardson.jpg"
+              name="Emma Richardson"
+              :value="75.5"
+              date="19 Aug 2024"
+            />
 
-          <InfoColorCardElement label="Gift" value="$40" color="bg-[var(--cyan)]" />
+            <TransactionCardElement
+              image="savory-bites-bistro.jpg"
+              name="Savory Bites Bistro"
+              :value="-55.5"
+              date="19 Aug 2024"
+            />
 
-          <InfoColorCardElement label="Concert Ticket" value="$110" color="bg-[var(--navy)]" />
+            <TransactionCardElement
+              image="daniel-carter.jpg"
+              name="Daniel Carter"
+              :value="-42.3"
+              date="18 Aug 2024"
+            />
 
-          <InfoColorCardElement label="New Laptop" value="$10" color="bg-[var(--yellow)]" />
-        </div>
-      </div>
-    </CardContentElement>
+            <TransactionCardElement
+              image="sun-park.jpg"
+              name="Sun Park"
+              :value="120.0"
+              date="17 Aug 2024"
+            />
 
-    <CardContentElement heading="Transactions" actionLabel="View All" class="mt-6">
-      <div class="mt-8 flex flex-col gap-6">
-        <TransactionCardElement
-          image="emma-richardson.jpg"
-          name="Emma Richardson"
-          :value="75.5"
-          date="19 Aug 2024"
-        />
-
-        <TransactionCardElement
-          image="savory-bites-bistro.jpg"
-          name="Savory Bites Bistro"
-          :value="-55.5"
-          date="19 Aug 2024"
-        />
-
-        <TransactionCardElement
-          image="daniel-carter.jpg"
-          name="Daniel Carter"
-          :value="-42.3"
-          date="18 Aug 2024"
-        />
-
-        <TransactionCardElement
-          image="sun-park.jpg"
-          name="Sun Park"
-          :value="120.0"
-          date="17 Aug 2024"
-        />
-
-        <TransactionCardElement
-          :showLine="false"
-          image="urban-services-hub.jpg"
-          name="Urban Services Hub"
-          :value="-65"
-          date="17 Aug 2024"
-        />
-      </div>
-    </CardContentElement>
-
-    <CardContentElement heading="Budgets" class="mt-6">
-      <div class="mt-7 tablet:mt-[3.188rem]">
-        <div
-          class="justify-center items-center flex flex-col tablet:flex-row tablet:gap-[9.375rem] tablet:justify-end"
-        >
-          <DoughnutChartElement />
-
-          <div class="mt-4 flex flex-wrap gap-4 tablet:mt-0 tablet:flex-col">
-            <InfoColorCardElement label="Entertainment" value="$50" color="bg-[var(--green)]" />
-
-            <InfoColorCardElement label="Bills" value="$750" color="bg-[var(--cyan)]" />
-
-            <InfoColorCardElement label="Dining Out" value="$75" color="bg-[var(--yellow)]" />
-
-            <InfoColorCardElement label="Personal Care" value="$100" color="bg-[var(--navy)]" />
+            <TransactionCardElement
+              :showLine="false"
+              image="urban-services-hub.jpg"
+              name="Urban Services Hub"
+              :value="-65"
+              date="17 Aug 2024"
+            />
           </div>
-        </div>
+        </CardContentElement>
       </div>
-    </CardContentElement>
 
-    <CardContentElement heading="Recurring Bills" class="mt-4 tablet:mt-6">
-      <div class="mt-8 flex flex-col gap-3">
-        <InfoCardBillElement label="Paid Bills" color="var(--green)" value="$190.00" />
+      <div>
+        <CardContentElement heading="Budgets" class="mt-6 desktop:mt-0">
+          <div class="mt-7 tablet:mt-[3.188rem]">
+            <div
+              class="justify-center items-center flex flex-col tablet:flex-row tablet:gap-[9.375rem] tablet:justify-end"
+            >
+              <DoughnutChartElement />
 
-        <InfoCardBillElement label="Total Upcoming" color="var(--yellow)" value="$194.98" />
+              <div class="mt-4 flex flex-wrap gap-4 tablet:mt-0 tablet:flex-col">
+                <InfoColorCardElement label="Entertainment" value="$50" color="bg-[var(--green)]" />
 
-        <InfoCardBillElement label="Due Soon" color="var(--cyan)" value="$59.98" />
+                <InfoColorCardElement label="Bills" value="$750" color="bg-[var(--cyan)]" />
+
+                <InfoColorCardElement label="Dining Out" value="$75" color="bg-[var(--yellow)]" />
+
+                <InfoColorCardElement label="Personal Care" value="$100" color="bg-[var(--navy)]" />
+              </div>
+            </div>
+          </div>
+        </CardContentElement>
+
+        <CardContentElement heading="Recurring Bills" class="mt-4 tablet:mt-6">
+          <div class="mt-8 flex flex-col gap-3">
+            <InfoCardBillElement label="Paid Bills" color="var(--green)" value="$190.00" />
+
+            <InfoCardBillElement label="Total Upcoming" color="var(--yellow)" value="$194.98" />
+
+            <InfoCardBillElement label="Due Soon" color="var(--cyan)" value="$59.98" />
+          </div>
+        </CardContentElement>
       </div>
-    </CardContentElement>
+    </div>
   </div>
 </template>
