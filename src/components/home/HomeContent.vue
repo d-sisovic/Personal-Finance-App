@@ -8,9 +8,9 @@ import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
 </script>
 
 <template>
-  <div class="py-6 px-4 bg-[var(--beige-100)] min-h-screen tablet:py-8 tablet:px-10">
+  <div class="py-6 px-4 min-h-screen tablet:py-8 tablet:px-10 desktop:py-8 desktop:px-10">
     <h1
-      class="leading-[120%] font-bold text-[2rem] text-[var(--grey-900)] mb-8 tablet:mb-[2.625rem]"
+      class="leading-[120%] font-bold text-[2rem] text-[var(--grey-900)] mb-8 tablet:mb-[2.625rem] desktop:mb-8"
     >
       Overview
     </h1>
@@ -100,7 +100,9 @@ import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
 
     <CardContentElement heading="Budgets" class="mt-6">
       <div class="mt-7 tablet:mt-[3.188rem]">
-        <div class="tablet:flex tablet:justify-end tablet:gap-[9.375rem] tablet:items-center">
+        <div
+          class="justify-center items-center flex flex-col tablet:flex-row tablet:gap-[9.375rem] tablet:justify-end"
+        >
           <DoughnutChartElement />
 
           <div class="mt-4 flex flex-wrap gap-4 tablet:mt-0 tablet:flex-col">
