@@ -29,7 +29,7 @@ import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
     </div>
 
     <div class="desktop:flex desktop:gap-6 desktop:mt-6">
-      <div>
+      <div class="desktop:flex-1">
         <CardContentElement heading="Pots" class="mt-8 desktop:mt-0">
           <div class="tablet:flex tablet:items-center gap-5">
             <div
@@ -103,11 +103,11 @@ import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
         </CardContentElement>
       </div>
 
-      <div>
-        <CardContentElement heading="Budgets" class="mt-6 desktop:mt-0">
+      <div class="desktop:flex-1 desktop:max-w-[26.75rem] desktop:flex desktop:flex-col">
+        <CardContentElement heading="Budgets" class="mt-6 desktop:mt-0 desktop:h-full">
           <div class="mt-7 tablet:mt-[3.188rem]">
             <div
-              class="justify-center items-center flex flex-col tablet:flex-row tablet:gap-[9.375rem] tablet:justify-end"
+              class="justify-center items-center flex flex-col tablet:flex-row tablet:gap-[9.375rem] tablet:justify-end desktop:gap-[1.2rem]"
             >
               <DoughnutChartElement />
 
