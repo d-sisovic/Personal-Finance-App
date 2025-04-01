@@ -8,6 +8,8 @@ defineProps({
 
 const rootStore = useRootStore();
 
+const shrinkedSidebar = computed(() => rootStore.shrinkedSidebar);
+
 const emit = defineEmits(['toggle-menu']);
 
 const images = import.meta.glob('@/assets/images/*', { eager: true }) as Record<
@@ -82,7 +84,7 @@ const onToggleMenu = () => emit('toggle-menu');
         :class="`tablet:w-6 tablet:h-6 ${isActive ? 'green-filter' : ''}`"
       />
 
-      <span :class="navItemLabelClass(isActive, desktopMode)" v-if="!rootStore.shrinkedSidebar">
+      <span :class="navItemLabelClass(isActive, desktopMode)" v-if="!shrinkedSidebar">
         {{ label }}
       </span>
     </div>
@@ -94,11 +96,11 @@ const onToggleMenu = () => emit('toggle-menu');
       <img
         src="@/assets/images/icon-minimize-menu.svg"
         alt="minimize"
-        :class="`${!rootStore.shrinkedSidebar ? '' : 'rotate-180'} w-6 h-6`"
+        :class="`${!shrinkedSidebar ? '' : 'rotate-180'} w-6 h-6`"
       />
 
       <span
-        v-if="!rootStore.shrinkedSidebar"
+        v-if="!shrinkedSidebar"
         class="text-[var(--grey-300)] text-[1rem] leading-[150%] font-bold whitespace-nowrap cursor-pointer left-0 right-[1.5rem]"
       >
         Minimize Menu
