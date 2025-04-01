@@ -9,7 +9,7 @@ import InputElement from '../ui/InputElement.vue';
 import ButtonElement from '../ui/ButtonElement.vue';
 import SpinnerElement from '../ui/SpinnerElement.vue';
 import AuthLeftDesktopSection from './AuthLeftDesktopSection.vue';
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 const email = ref<string>('');
 const password = ref<string>('');
@@ -22,6 +22,19 @@ const router = useRouter();
 const snackbar = useSnackbar();
 const firebaseApp = useFirebaseApp();
 const auth = getAuth(firebaseApp);
+
+onBeforeMount(async () => {
+  await signOut(auth);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      router.push({ name: ROUTES.HOME });
+      return;
+    }
+
+    isCheckingAuth.value = false;
+  });
+});
 
 const onLogin = async () => {
   loginInProgress.value = true;
