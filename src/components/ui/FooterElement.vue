@@ -8,8 +8,6 @@ defineProps({
 
 const rootStore = useRootStore();
 
-const notShrinkedSidebar = computed(() => !rootStore.shrinkedSidebar);
-
 const emit = defineEmits(['toggle-menu']);
 
 const images = import.meta.glob('@/assets/images/*', { eager: true }) as Record<
@@ -48,7 +46,7 @@ const menuItems = ref([
 const navItemClass = computed(
   () =>
     (isActive: boolean, desktopMode: boolean = false) =>
-      `${isActive ? `rounded-t-md border-b-4 border-[var(--green)] bg-[var(--beige-100)] ${desktopMode ? 'desktop:rounded-t-none desktop:rounded-r-md desktop:border-b-0 desktop:border-l-4' : ''}` : ''}
+      `${isActive ? `rounded-t-md border-b-4 border-[var(--green)] bg-[var(--beige-100)] ${desktopMode ? 'desktop:rounded-t-none desktop:!rounded-r-md desktop:border-b-0 desktop:border-l-4' : ''}` : ''}
       ${desktopMode ? 'desktop:w-full desktop:gap-4 desktop:max-w-[17.25rem] desktop:py-4 desktop:px-8 desktop:flex-row w-full' : ''}
       pt-2 pb-3 px-6 tablet:h-[4.125rem] tablet:w-[6.5rem] tablet:inline-flex tablet:items-center tablet:space-around tablet:flex-col cursor-pointer`,
 );
@@ -84,7 +82,7 @@ const onToggleMenu = () => emit('toggle-menu');
         :class="`tablet:w-6 tablet:h-6 ${isActive ? 'green-filter' : ''}`"
       />
 
-      <span :class="navItemLabelClass(isActive, desktopMode)" v-if="notShrinkedSidebar">
+      <span :class="navItemLabelClass(isActive, desktopMode)" v-if="!rootStore.shrinkedSidebar">
         {{ label }}
       </span>
     </div>
@@ -96,11 +94,11 @@ const onToggleMenu = () => emit('toggle-menu');
       <img
         src="@/assets/images/icon-minimize-menu.svg"
         alt="minimize"
-        :class="`${notShrinkedSidebar ? '' : 'rotate-180'} w-6 h-6`"
+        :class="`${!rootStore.shrinkedSidebar ? '' : 'rotate-180'} w-6 h-6`"
       />
 
       <span
-        v-if="notShrinkedSidebar"
+        v-if="!rootStore.shrinkedSidebar"
         class="text-[var(--grey-300)] text-[1rem] leading-[150%] font-bold whitespace-nowrap cursor-pointer left-0 right-[1.5rem]"
       >
         Minimize Menu
