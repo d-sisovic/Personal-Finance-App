@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useRootStore } from '@/stores/root';
+import { ROUTES } from '@/ts/enums/routes.enum';
+import { useRoute, useRouter } from 'vue-router';
 
 defineProps({
   desktopMode: Boolean,
 });
+
+const route = useRoute();
+
+const router = useRouter();
 
 const rootStore = useRootStore();
 
@@ -17,33 +23,45 @@ const images = import.meta.glob('@/assets/images/*', { eager: true }) as Record<
   { default: string }
 >;
 
-const menuItems = ref([
+const menuItemsRef = ref([
   {
-    isActive: true,
+    route: ROUTES.HOME,
+    isActive: false,
     label: 'Overview',
     image: images['/src/assets/images/icon-nav-overview.svg']?.default || '',
   },
   {
+    route: ROUTES.TRANSACTIONS,
     isActive: false,
     label: 'Transactions',
     image: images['/src/assets/images/icon-nav-transactions.svg']?.default || '',
   },
   {
+    route: ROUTES.BUDGETS,
     isActive: false,
     label: 'Budgets',
     image: images['/src/assets/images/icon-nav-budgets.svg']?.default || '',
   },
   {
+    route: ROUTES.POTS,
     isActive: false,
     label: 'Pots',
     image: images['/src/assets/images/icon-nav-pots.svg']?.default || '',
   },
   {
+    route: ROUTES.RECURRING_BILLS,
     isActive: false,
     label: 'Recurring bills',
     image: images['/src/assets/images/icon-nav-recurring-bills.svg']?.default || '',
   },
 ]);
+
+const menuItems = computed(() =>
+  menuItemsRef.value.map((item) => ({
+    ...item,
+    isActive: route.name === item.route,
+  })),
+);
 
 const navItemClass = computed(
   () =>
@@ -69,13 +87,16 @@ const containerClass = computed(
 );
 
 const onToggleMenu = () => emit('toggle-menu');
+
+const onClickNavItem = (route: ROUTES) => router.push({ name: route });
 </script>
 
 <template>
   <div :class="containerClass(desktopMode)">
     <div
-      v-for="{ label, image, isActive } in menuItems"
+      v-for="{ label, image, isActive, route } in menuItems"
       :key="label"
+      @click="onClickNavItem(route)"
       :class="navItemClass(isActive, desktopMode)"
     >
       <img
