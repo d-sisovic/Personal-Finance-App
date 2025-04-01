@@ -3,29 +3,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
 import { DoughnutChart } from 'vue-chart-3';
 import { Chart, registerables } from 'chart.js';
+import { defineComponent, type PropType } from 'vue';
 
 Chart.register(...registerables);
 
 export default defineComponent({
   name: 'DoughnutChartElement',
   components: { DoughnutChart },
-  setup() {
+  props: {
+    current: { type: String, required: true },
+    limit: { type: String, required: true },
+    values: { type: Array as PropType<number[]>, required: true },
+  },
+  setup({ current, limit, values }) {
     const data = {
       labels: ['Entertainment', 'Bills', 'Dining Out', 'Personal Care'],
       datasets: [
         {
           cutout: '60%',
           borderWidth: 0,
-          data: [50, 750, 75, 100],
+          data: values,
           backgroundColor: ['#277C78', '#82C9D7', '#F2CDAC', '#626070'],
         },
         {
           cutout: '70%',
           borderWidth: 0,
-          data: [50, 750, 75, 100],
+          data: values,
           backgroundColor: ['#5D9D9A', '#A1D7E1', '#F5DAC1', '#898894'],
         },
       ],
@@ -46,8 +51,8 @@ export default defineComponent({
 
         ctx.save();
 
-        const mainText = '$338';
-        const subText = 'of $975 limit';
+        const mainText = current;
+        const subText = `of ${limit} limit`;
 
         const centerX = width / 2;
         const centerY = height / 2;
