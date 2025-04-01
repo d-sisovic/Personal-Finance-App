@@ -17,6 +17,7 @@ withDefaults(
 
       <span
         class="leading-[150%] font-normal text-[0.88rem] text-[var(--grey-500)] inline-flex items-center gap-4 cursor-pointer"
+        v-if="actionLabel"
       >
         {{ actionLabel }}
 
