@@ -1,24 +1,33 @@
 import { useFirebaseApp } from 'vuefire';
-import HomeView from '../views/HomeView.vue';
+import RootView from '../views/RootView.vue';
 import { ROUTES } from '@/ts/enums/routes.enum';
+import NotFoundView from '@/views/NotFoundView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import TransactionsView from '@/views/TransactionsView.vue';
+import HomeContent from '@/components/home/HomeContent.vue';
+import TransactionsContent from '@/components/transactions/TransactionsContent.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: ROUTES.HOME,
-      component: HomeView,
+      name: ROUTES.ROOT,
+      component: RootView,
       meta: { requiresAuth: true },
-    },
-    {
-      path: '/transactions',
-      name: ROUTES.TRANSACTIONS,
-      component: TransactionsView,
-      meta: { requiresAuth: true },
+      redirect: ROUTES.HOME,
+      children: [
+        {
+          path: 'home',
+          name: ROUTES.HOME,
+          component: HomeContent,
+        },
+        {
+          path: 'transactions',
+          name: ROUTES.TRANSACTIONS,
+          component: TransactionsContent,
+        },
+      ],
     },
     {
       path: '/login',
@@ -29,6 +38,11 @@ const router = createRouter({
       path: '/signup',
       name: ROUTES.SIGNUP,
       component: () => import('../views/SignupView.vue'),
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: ROUTES.NOT_FOUND,
+      component: NotFoundView,
     },
   ],
 });

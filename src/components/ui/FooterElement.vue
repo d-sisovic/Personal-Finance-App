@@ -88,7 +88,7 @@ const containerClass = computed(
 
 const onToggleMenu = () => emit('toggle-menu');
 
-const onClickNavItem = (route: ROUTES) => router.push({ name: route });
+const onClickNavItem = (path: ROUTES) => router.push({ path });
 </script>
 
 <template>

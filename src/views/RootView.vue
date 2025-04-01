@@ -13,7 +13,7 @@ const rootStore = useRootStore();
     <div
       :class="`flex-1 ${!rootStore.shrinkedSidebar ? 'desktop:ml-[18.75rem]' : 'desktop:ml-[5.5rem]'}`"
     >
-      <slot></slot>
+      <router-view></router-view>
 
       <FooterElement />
     </div>

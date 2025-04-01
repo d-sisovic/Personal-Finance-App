@@ -42,7 +42,7 @@ const balanceRef = formatStoreSection(homeStore.balanceOverview, 2);
 </script>
 
 <template>
-  <div class="py-6 px-4 min-h-screen tablet:py-8 tablet:px-10 desktop:py-8 desktop:px-10">
+  <div class="py-6 px-4 tablet:py-8 tablet:px-10 desktop:py-8 desktop:px-10">
     <h1
       class="leading-[120%] font-bold text-[2rem] text-[var(--grey-900)] mb-8 tablet:mb-[2.625rem] desktop:mb-8 desktop:leading-[3.5rem]"
     >
