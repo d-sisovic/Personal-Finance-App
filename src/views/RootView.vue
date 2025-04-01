@@ -11,7 +11,7 @@ const rootStore = useRootStore();
     <SidenavElement class="hidden desktop:block" />
 
     <div
-      :class="`flex-1 ${!rootStore.shrinkedSidebar ? 'desktop:ml-[18.75rem]' : 'desktop:ml-[5.5rem]'}`"
+      :class="`flex flex-col justify-between flex-1 relative min-h-[inherit] ${!rootStore.shrinkedSidebar ? 'desktop:ml-[18.75rem]' : 'desktop:ml-[5.5rem]'}`"
     >
       <router-view></router-view>
 
