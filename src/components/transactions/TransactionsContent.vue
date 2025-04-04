@@ -1,5 +1,19 @@
 <script setup lang="ts">
+import MobileDropdown from '../ui/MobileDropdown.vue';
 import CardContentElement from '../ui/CardContentElement.vue';
+import InputFilterElement from '../ui/InputFilterElement.vue';
+
+const sortDropdownItems = ['Latest', 'Oldest', 'A to Z', 'Z to A', 'Highest', 'Lowest'];
+
+const filterDropdownItems = [
+  'All transactions',
+  'Entertainment',
+  'Bills',
+  'Groceries',
+  'Dining Out',
+  'Transportation',
+  'Personal Care',
+];
 </script>
 
 <template>
@@ -11,7 +25,23 @@ import CardContentElement from '../ui/CardContentElement.vue';
     </h1>
 
     <CardContentElement heading="" actionLabel="" class="mt-8">
-      <p>hahha</p>
+      <div class="flex items-center justify-between gap-6">
+        <InputFilterElement placeholder="Search transaction" />
+
+        <div class="flex gap-6">
+          <MobileDropdown
+            imagePath="icon-sort-mobile.svg"
+            :mobileHeading="'Sort by'"
+            :dropdownItems="sortDropdownItems"
+          />
+
+          <MobileDropdown
+            imagePath="icon-filter-mobile.svg"
+            :mobileHeading="'Category'"
+            :dropdownItems="filterDropdownItems"
+          />
+        </div>
+      </div>
     </CardContentElement>
   </div>
 </template>
