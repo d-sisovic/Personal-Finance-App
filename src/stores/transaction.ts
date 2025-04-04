@@ -36,7 +36,7 @@ const getRandomDate = () => {
   return `${randomDate.getDate()} Aug 2024`;
 };
 
-const transactions = Array.from({ length: 100 }, () => ({
+const transactions = Array.from({ length: 10 }, () => ({
   image: getRandomItem(images),
   name: getRandomItem(names),
   category: getRandomItem(categories),
