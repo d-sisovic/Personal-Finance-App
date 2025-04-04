@@ -111,9 +111,10 @@ const balanceRef = formatStoreSection(homeStore.balanceOverview, 2);
         <CardContentElement heading="Transactions" actionLabel="View All" class="mt-6">
           <div class="mt-8 flex flex-col gap-6">
             <TransactionCardElement
-              v-for="transactionItem in transactionsRef"
+              v-for="(transactionItem, index) in transactionsRef"
               :key="transactionItem.name"
               v-bind="transactionItem"
+              :show-line="transactionsRef.length !== index + 1"
             />
           </div>
         </CardContentElement>

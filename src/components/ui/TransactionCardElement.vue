@@ -1,18 +1,14 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 
-const props = withDefaults(
-  defineProps<{
-    date: string;
-    name: string;
-    image: string;
-    value: number;
-    showLine?: boolean;
-  }>(),
-  {
-    showLine: true,
-  },
-);
+const props = defineProps<{
+  date: string;
+  name: string;
+  image: string;
+  value: number;
+  category?: string;
+  showLine?: boolean;
+}>();
 
 const images = import.meta.glob('@/assets/images/avatars/*', { eager: true });
 
@@ -36,12 +32,16 @@ const formattedValue = computed(() => {
       <div class="inline-flex items-center gap-4">
         <img :src="imageSrc" :alt="name" class="rounded-full h-8 w-8 tablet:h-10 tablet:w-10" />
 
-        <span class="leading-[150%] font-bold text-[0.88rem] text-[var(--grey-900)]">
-          {{ name }}
-        </span>
+        <div :class="`${category ? 'flex flex-col' : ''}`">
+          <span class="leading-[150%] font-bold text-[0.88rem] text-[var(--grey-900)]">
+            {{ name }}
+          </span>
+
+          <span class="text-[0.75rem] text-[#696868] mt-1" v-if="category">{{ category }}</span>
+        </div>
       </div>
 
-      <div class="inline-flex flex-col gap-2 text-right">
+      <div :class="`${category ? 'gap-1' : 'gap-2'} inline-flex flex-col text-right`">
         <span class="leading-[150%] font-bold text-[0.88rem]" :class="valueColor">
           {{ formattedValue }}
         </span>

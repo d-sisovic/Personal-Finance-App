@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import MobileDropdown from '../ui/MobileDropdown.vue';
+import { useTransactionStore } from '@/stores/transaction';
 import CardContentElement from '../ui/CardContentElement.vue';
 import InputFilterElement from '../ui/InputFilterElement.vue';
+import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
+
+const transactionStore = useTransactionStore();
 
 const sortDropdownItems = ['Latest', 'Oldest', 'A to Z', 'Z to A', 'Highest', 'Lowest'];
 
@@ -14,6 +18,8 @@ const filterDropdownItems = [
   'Transportation',
   'Personal Care',
 ];
+
+const transactionsRef = transactionStore.transactions;
 </script>
 
 <template>
@@ -41,6 +47,15 @@ const filterDropdownItems = [
             :dropdownItems="filterDropdownItems"
           />
         </div>
+      </div>
+
+      <div class="mt-8 flex flex-col gap-6">
+        <TransactionCardElement
+          v-for="(transactionItem, index) in transactionsRef"
+          :key="transactionItem.name"
+          v-bind="transactionItem"
+          :show-line="transactionsRef.length !== index + 1"
+        />
       </div>
     </CardContentElement>
   </div>
