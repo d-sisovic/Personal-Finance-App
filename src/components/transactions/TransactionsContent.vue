@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import MobileDropdown from '../ui/MobileDropdown.vue';
 import { useTransactionStore } from '@/stores/transaction';
+import PaginationElement from '../ui/PaginationElement.vue';
 import CardContentElement from '../ui/CardContentElement.vue';
 import InputFilterElement from '../ui/InputFilterElement.vue';
 import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
@@ -20,6 +21,10 @@ const filterDropdownItems = [
 ];
 
 const transactionsRef = transactionStore.transactions;
+
+const onPageChange = (page: number) => {
+  console.log('new page selected', page);
+};
 </script>
 
 <template>
@@ -56,6 +61,8 @@ const transactionsRef = transactionStore.transactions;
           v-bind="transactionItem"
           :show-line="transactionsRef.length !== index + 1"
         />
+
+        <PaginationElement :total-items="15" @selected-page="onPageChange" />
       </div>
     </CardContentElement>
   </div>
