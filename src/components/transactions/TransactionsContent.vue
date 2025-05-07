@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useIsDesktop } from '@/hooks/useIsDesktop';
 import MobileDropdown from '../ui/MobileDropdown.vue';
 import { useTransactionStore } from '@/stores/transaction';
 import PaginationElement from '../ui/PaginationElement.vue';
 import CardContentElement from '../ui/CardContentElement.vue';
 import InputFilterElement from '../ui/InputFilterElement.vue';
-import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
+import TransactionCardElement from '../ui/TransactionCardElement.vue';
+import TransactionTableElement from '../ui/TransactionTableElement.vue';
+
+const { isDesktop } = useIsDesktop();
 
 const transactionStore = useTransactionStore();
+
+const tableHeaders = ['Recipient/Sender', 'Category', 'Transaction Date', 'Amount'];
 
 const sortDropdownItems = ['Latest', 'Oldest', 'A to Z', 'Z to A', 'Highest', 'Lowest'];
 
@@ -62,8 +68,13 @@ const onCategorySelect = (category: string) => transactionStore.onSetCategory(ca
         </div>
       </div>
 
-      <div class="mt-8 flex flex-col gap-6">
+      <div class="mt-8 flex flex-col gap-6 overflow-x-auto">
+        <template v-if="isDesktop">
+          <TransactionTableElement :transactions="filteredTransactions" :headers="tableHeaders" />
+        </template>
+
         <TransactionCardElement
+          v-else
           v-for="(transactionItem, index) in filteredTransactions"
           :key="transactionItem.uuid"
           v-bind="transactionItem"
