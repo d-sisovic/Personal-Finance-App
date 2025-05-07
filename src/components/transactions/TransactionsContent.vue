@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import MobileDropdown from '../ui/MobileDropdown.vue';
 import { useTransactionStore } from '@/stores/transaction';
 import PaginationElement from '../ui/PaginationElement.vue';
@@ -20,11 +21,13 @@ const filterDropdownItems = [
   'Personal Care',
 ];
 
-const transactionsRef = transactionStore.transactions;
+const filteredTransactions = computed(() => transactionStore.filteredTransactions);
 
-const onPageChange = (page: number) => {
-  console.log('new page selected', page);
-};
+const onPageChange = (page: number) => console.log('Selected page:', page);
+
+const onSortSelect = (sort: string) => transactionStore.onSetSort(sort);
+
+const onCategorySelect = (category: string) => transactionStore.onSetCategory(category);
 </script>
 
 <template>
@@ -37,29 +40,34 @@ const onPageChange = (page: number) => {
 
     <CardContentElement heading="" actionLabel="" class="mt-8">
       <div class="flex items-center justify-between gap-6">
-        <InputFilterElement placeholder="Search transaction" />
+        <InputFilterElement
+          placeholder="Search transaction"
+          @update-filter-input="transactionStore.onSetSearchFilter"
+        />
 
         <div class="flex gap-6">
           <MobileDropdown
             imagePath="icon-sort-mobile.svg"
             :mobileHeading="'Sort by'"
             :dropdownItems="sortDropdownItems"
+            :onSelectItem="onSortSelect"
           />
 
           <MobileDropdown
             imagePath="icon-filter-mobile.svg"
             :mobileHeading="'Category'"
             :dropdownItems="filterDropdownItems"
+            :onSelectItem="onCategorySelect"
           />
         </div>
       </div>
 
       <div class="mt-8 flex flex-col gap-6">
         <TransactionCardElement
-          v-for="(transactionItem, index) in transactionsRef"
-          :key="transactionItem.name"
+          v-for="(transactionItem, index) in filteredTransactions"
+          :key="transactionItem.uuid"
           v-bind="transactionItem"
-          :show-line="transactionsRef.length !== index + 1"
+          :show-line="filteredTransactions.length !== index + 1"
         />
 
         <PaginationElement :total-items="15" @selected-page="onPageChange" />

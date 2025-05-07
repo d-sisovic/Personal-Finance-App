@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useDebouncedEmit } from '@/hooks/useDebouncedEmit';
+
 withDefaults(
   defineProps<{
     placeholder?: string;
@@ -7,6 +9,9 @@ withDefaults(
     placeholder: '',
   },
 );
+
+const emit = defineEmits(['update-filter-input' as string]);
+const debouncedEmit = useDebouncedEmit(emit, 'update-filter-input', 300);
 </script>
 
 <template>
@@ -14,6 +19,7 @@ withDefaults(
     <input
       type="text"
       :placeholder="placeholder"
+      @input="debouncedEmit(($event.target as HTMLInputElement).value)"
       class="py-3 px-5 rounded-[0.5rem] border-[#98908B] border text-[0.88rem] text-[#98908B] pr-[3.25rem] w-[13.438rem] outline-none"
     />
 
