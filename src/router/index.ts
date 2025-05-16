@@ -5,6 +5,7 @@ import NotFoundView from '@/views/NotFoundView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import HomeContent from '@/components/home/HomeContent.vue';
+import BudgetsContent from '@/components/budgets/BudgetsContent.vue';
 import TransactionsContent from '@/components/transactions/TransactionsContent.vue';
 
 const router = createRouter({
@@ -26,6 +27,11 @@ const router = createRouter({
           path: 'transactions',
           name: ROUTES.TRANSACTIONS,
           component: TransactionsContent,
+        },
+        {
+          path: 'budgets',
+          name: ROUTES.BUDGETS,
+          component: BudgetsContent,
         },
       ],
     },

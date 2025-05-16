@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { formatToNiceNumber } from '@/util';
 import { useHomeStore } from '@/stores/home';
 import InfoCardElement from '@/components/ui/InfoCardElement.vue';
 import CardContentElement from '@/components/ui/CardContentElement.vue';
@@ -9,9 +10,6 @@ import DoughnutChartElement from '@/components/ui/DoughnutChartElement.vue';
 import TransactionCardElement from '@/components/ui/TransactionCardElement.vue';
 
 const homeStore = useHomeStore();
-
-const formatToNiceNumber = (value: number, minimumFractionDigits: number) =>
-  `$${value.toLocaleString('en-US', { minimumFractionDigits, maximumFractionDigits: 2 })}`;
 
 const formatStoreSection = <T extends Record<string, number>>(
   section: T,

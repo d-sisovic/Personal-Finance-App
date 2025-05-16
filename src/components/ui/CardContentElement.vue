@@ -11,7 +11,7 @@ withDefaults(
 </script>
 
 <template>
-  <div class="bg-[var(--white)] p-5 rounded-xl tablet:p-8">
+  <div class="bg-[var(--white)] p-6 rounded-xl tablet:p-8">
     <div class="flex justify-between flex-wrap gap-4">
       <h1 class="leading-[120%] font-bold text-[1.25rem] text-[var(--grey-900)]">{{ heading }}</h1>
 
