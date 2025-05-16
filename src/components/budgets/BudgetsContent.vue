@@ -94,6 +94,11 @@ const onAddNewBudget = () => {};
       </div>
     </CardContentElement>
 
-    <BudgetInfoCardDetailElement> </BudgetInfoCardDetailElement>
+    <BudgetInfoCardDetailElement
+      label="Entertainment"
+      color="bg-[var(--green)]"
+      :spent="spendingsRef.entertainmentCurrent"
+      :maximum="spendingsRef.entertainmentTotal"
+    />
   </div>
 </template>
