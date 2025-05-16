@@ -78,7 +78,10 @@ export const useTransactionStore = defineStore('transaction', {
 
       const filteredTransactions = state.transactions.filter(({ name, category }) => {
         const nameMatches = !searchKeyword || name.toLowerCase().includes(searchKeyword);
-        const categoryMatches = !stateCategory || category.toLowerCase() === stateCategory;
+        const categoryMatches =
+          !stateCategory ||
+          stateCategory === 'all transactions' ||
+          category.toLowerCase() === stateCategory;
 
         return nameMatches && categoryMatches;
       });

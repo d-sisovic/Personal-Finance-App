@@ -1,22 +1,27 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { useIsDesktop } from '@/hooks/useIsDesktop';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 
 const props = defineProps<{
+  heading: string;
   imagePath: string;
-  mobileHeading: string;
   dropdownItems: string[];
   onSelectItem: (value: string) => void;
 }>();
 
-const selectedValueRef = ref<string>('');
+const { isDesktop } = useIsDesktop();
+
+const selectedValueRef = ref<string>(isDesktop ? props.dropdownItems[0] : '');
 const dropdownVisibleRef = ref<boolean>(false);
 const dropdownRef = ref<HTMLElement | null>(null);
 
 const images = import.meta.glob('@/assets/images/*', { eager: true });
 
-const imageSrc = computed(
-  () => (images[`/src/assets/images/${props.imagePath}`] as Record<string, string>)?.default || '',
-);
+const imageSrc =
+  (images[`/src/assets/images/${props.imagePath}`] as Record<string, string>)?.default || '';
+
+const arrowDownSrc =
+  (images[`/src/assets/images/icon-caret-down.svg`] as Record<string, string>)?.default || '';
 
 const selectDropdownItems = props.dropdownItems.map((item) => ({ label: item, value: item }));
 
@@ -38,6 +43,12 @@ const handleSelectItem = (value: string) => {
   selectedValueRef.value = value;
 };
 
+const ulClass = computed(() => {
+  const topStyle = isDesktop ? '' : 'top-[1.781rem]';
+
+  return `absolute rounded-[0.5rem] shadow-[0rem_0.25rem_1.5rem_0rem_rgba(0,0,0,0.25)] py-3 px-5 bg-white max-h-[18.75rem] min-w-[7.125rem] overflow-y-auto right-0 ${topStyle}`;
+});
+
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
 });
@@ -54,17 +65,28 @@ onUnmounted(() => {
       :alt="imagePath"
       class="cursor-pointer"
       @click="toggleDropdownVisibility"
+      v-if="!isDesktop"
     />
 
-    <ul
-      class="absolute rounded-[0.5rem] shadow-[0rem_0.25rem_1.5rem_0rem_rgba(0,0,0,0.25)] py-3 px-5 bg-white max-h-[18.75rem] min-w-[7.125rem] overflow-y-auto right-0 top-[1.781rem]"
-      v-if="dropdownVisibleRef"
-    >
+    <div class="inline-flex gap-2 flex-wrap items-center" @click="toggleDropdownVisibility" v-else>
+      <span class="text-[0.88rem] text-[var(--grey-500)]">{{ heading }}</span>
+
+      <div
+        class="py-3 px-5 border-[0.06rem] border-[#98908b] rounded-[0.5rem] bg-white inline-flex items-center gap-4 cursor-pointer"
+      >
+        {{ selectedValueRef }}
+
+        <img :src="arrowDownSrc" alt="arrow-down" />
+      </div>
+    </div>
+
+    <ul :class="ulClass" v-if="dropdownVisibleRef">
       <li
         class="text-[0.88rem] text-[#98908B] whitespace-nowrap"
         @click="() => handleSelectItem('')"
+        v-if="!isDesktop"
       >
-        {{ mobileHeading }}
+        {{ heading }}
         <div class="my-3 border-[0.06rem] border-[#F2F2F2]"></div>
       </li>
 

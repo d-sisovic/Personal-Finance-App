@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import Dropdown from '../ui/DropdownElement.vue';
 import { useIsDesktop } from '@/hooks/useIsDesktop';
-import MobileDropdown from '../ui/MobileDropdown.vue';
 import { useTransactionStore } from '@/stores/transaction';
 import PaginationElement from '../ui/PaginationElement.vue';
 import CardContentElement from '../ui/CardContentElement.vue';
@@ -45,23 +45,24 @@ const onCategorySelect = (category: string) => transactionStore.onSetCategory(ca
     </h1>
 
     <CardContentElement heading="" actionLabel="" class="mt-8">
-      <div class="flex items-center justify-between gap-6">
+      <div class="flex flex-wrap items-center justify-between gap-6">
         <InputFilterElement
+          input-class="desktop:min-w-[20rem]"
           placeholder="Search transaction"
           @update-filter-input="transactionStore.onSetSearchFilter"
         />
 
         <div class="flex gap-6">
-          <MobileDropdown
+          <Dropdown
             imagePath="icon-sort-mobile.svg"
-            :mobileHeading="'Sort by'"
+            :heading="'Sort by'"
             :dropdownItems="sortDropdownItems"
             :onSelectItem="onSortSelect"
           />
 
-          <MobileDropdown
+          <Dropdown
             imagePath="icon-filter-mobile.svg"
-            :mobileHeading="'Category'"
+            :heading="'Category'"
             :dropdownItems="filterDropdownItems"
             :onSelectItem="onCategorySelect"
           />
