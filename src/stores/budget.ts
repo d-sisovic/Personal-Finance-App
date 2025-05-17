@@ -1,4 +1,17 @@
 import { defineStore } from 'pinia';
+import { getRandomDate, getRandomItem, getRandomValue } from '@/util';
+
+const images = ['bytewise.jpg', 'urban-services-hub.jpg', 'nimbus-data-storage.jpg'];
+
+const names = ['Papa Software', 'Quebec Services', 'Romeo Cloud Service'];
+
+const spendings = Array.from({ length: 3 }, (_, index: number) => ({
+  uuid: `${index}`,
+  image: getRandomItem(images),
+  name: getRandomItem(names),
+  value: getRandomValue(),
+  date: getRandomDate(),
+}));
 
 export const useBudgetStore = defineStore('budget', {
   state: () => ({
@@ -17,6 +30,7 @@ export const useBudgetStore = defineStore('budget', {
       entertainmentCurrent: 25,
       entertainmentTotal: 50,
     },
+    spendings,
   }),
   actions: {},
 });

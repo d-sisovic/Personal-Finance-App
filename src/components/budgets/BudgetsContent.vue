@@ -44,61 +44,97 @@ const onAddNewBudget = () => {};
       </div>
     </div>
 
-    <CardContentElement heading="" actionLabel="">
-      <div class="mt-7">
-        <div class="flex justify-center">
-          <DoughnutChartElement v-bind="budgetChartsRef" />
-        </div>
+    <div class="desktop:flex desktop:gap-6">
+      <div class="flex-1 desktop:max-w-[26.75rem]">
+        <CardContentElement heading="" actionLabel="">
+          <div
+            class="mt-7 tablet:flex tablet:justify-between tablet:items-center tablet:mt-0 tablet:gap-8 desktop:flex-col"
+          >
+            <div class="flex justify-center tablet:p-8">
+              <DoughnutChartElement v-bind="budgetChartsRef" />
+            </div>
 
-        <h3
-          class="mt-[3.25rem] mb-6 leading-[120%] font-bold text-[1.25rem] text-[var(--grey-900)]"
-        >
-          Spending Summary
-        </h3>
+            <div class="flex-1 desktop:w-full">
+              <h3
+                class="mt-[3.25rem] mb-6 leading-[120%] font-bold text-[1.25rem] text-[var(--grey-900)] tablet:mt-0"
+              >
+                Spending Summary
+              </h3>
 
-        <div class="flex flex-col">
-          <BudgetInfoCardElement
-            label="Bills"
-            color="bg-[var(--cyan)]"
-            :current="spendingsRef.billsCurrent"
-            :total="spendingsRef.billsTotal"
-          />
+              <div class="flex flex-col">
+                <BudgetInfoCardElement
+                  label="Bills"
+                  color="bg-[var(--cyan)]"
+                  :current="spendingsRef.billsCurrent"
+                  :total="spendingsRef.billsTotal"
+                />
 
-          <div class="my-[0.906rem] w-full h-[1px] bg-[var(--grey-100)]"></div>
+                <div class="my-[0.906rem] w-full h-[1px] bg-[var(--grey-100)]"></div>
 
-          <BudgetInfoCardElement
-            label="Dining Out"
-            color="bg-[var(--yellow)]"
-            :current="spendingsRef.diningOutCurrent"
-            :total="spendingsRef.dinningOutTotal"
-          />
+                <BudgetInfoCardElement
+                  label="Dining Out"
+                  color="bg-[var(--yellow)]"
+                  :current="spendingsRef.diningOutCurrent"
+                  :total="spendingsRef.dinningOutTotal"
+                />
 
-          <div class="my-[0.906rem] w-full h-[1px] bg-[var(--grey-100)]"></div>
+                <div class="my-[0.906rem] w-full h-[1px] bg-[var(--grey-100)]"></div>
 
-          <BudgetInfoCardElement
-            label="Personal Care"
-            color="bg-[var(--navy)]"
-            :current="spendingsRef.personalCareCurrent"
-            :total="spendingsRef.personalCareTotal"
-          />
+                <BudgetInfoCardElement
+                  label="Personal Care"
+                  color="bg-[var(--navy)]"
+                  :current="spendingsRef.personalCareCurrent"
+                  :total="spendingsRef.personalCareTotal"
+                />
 
-          <div class="my-[0.906rem] w-full h-[1px] bg-[var(--grey-100)]"></div>
+                <div class="my-[0.906rem] w-full h-[1px] bg-[var(--grey-100)]"></div>
 
-          <BudgetInfoCardElement
-            label="Entertainment"
-            color="bg-[var(--green)]"
-            :current="spendingsRef.entertainmentCurrent"
-            :total="spendingsRef.entertainmentTotal"
-          />
-        </div>
+                <BudgetInfoCardElement
+                  label="Entertainment"
+                  color="bg-[var(--green)]"
+                  :current="spendingsRef.entertainmentCurrent"
+                  :total="spendingsRef.entertainmentTotal"
+                />
+              </div>
+            </div>
+          </div>
+        </CardContentElement>
       </div>
-    </CardContentElement>
 
-    <BudgetInfoCardDetailElement
-      label="Entertainment"
-      color="bg-[var(--green)]"
-      :spent="spendingsRef.entertainmentCurrent"
-      :maximum="spendingsRef.entertainmentTotal"
-    />
+      <div class="flex-1">
+        <BudgetInfoCardDetailElement
+          label="Entertainment"
+          color="bg-[var(--green)]"
+          :spent="spendingsRef.entertainmentCurrent"
+          :maximum="spendingsRef.entertainmentTotal"
+          :spendings="budgetStore.spendings"
+          spacing-top-class="desktop:mt-0"
+        />
+
+        <BudgetInfoCardDetailElement
+          label="Bills"
+          color="bg-[var(--cyan)]"
+          :spent="spendingsRef.billsCurrent"
+          :maximum="spendingsRef.billsTotal"
+          :spendings="budgetStore.spendings"
+        />
+
+        <BudgetInfoCardDetailElement
+          label="Dining Out"
+          color="bg-[var(--yellow)]"
+          :spent="spendingsRef.diningOutCurrent"
+          :maximum="spendingsRef.dinningOutTotal"
+          :spendings="budgetStore.spendings"
+        />
+
+        <BudgetInfoCardDetailElement
+          label="Personal Care"
+          color="bg-[var(--navy)]"
+          :spent="spendingsRef.personalCareCurrent"
+          :maximum="spendingsRef.personalCareTotal"
+          :spendings="budgetStore.spendings"
+        />
+      </div>
+    </div>
   </div>
 </template>

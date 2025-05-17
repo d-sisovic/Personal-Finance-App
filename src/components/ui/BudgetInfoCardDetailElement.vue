@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import { formatStringToNumber } from '@/util';
+import { useIsDesktop } from '@/hooks/useIsDesktop';
 import ProgressBarElement from './ProgressBarElement.vue';
 import CardContentElement from './CardContentElement.vue';
+import type { IListItem } from '@/ts/interfaces/list.model';
+import TransactionCardElement from './TransactionCardElement.vue';
 
 const props = defineProps<{
   spent: string;
   label: string;
   color: string;
   maximum: string;
+  spendings: IListItem[];
+  spacingTopClass?: string;
 }>();
+
+const { isDesktop } = useIsDesktop();
 
 const spentPercentage =
   (formatStringToNumber(props.spent) / formatStringToNumber(props.maximum)) * 100;
@@ -20,7 +27,7 @@ const dotsImageSrc =
 </script>
 
 <template>
-  <div class="mt-6 bg-[var(--white)] p-6 rounded-xl tablet:p-8">
+  <div class="mt-6 bg-[var(--white)] p-6 rounded-xl tablet:p-8" :class="spacingTopClass">
     <div class="flex justify-between flex-wrap items-center mb-[1.25rem]">
       <div class="flex gap-4 items-center flex-wrap">
         <span class="w-4 h-4 rounded-full block" :class="color"></span>
@@ -33,7 +40,7 @@ const dotsImageSrc =
 
     <h3 class="mb-5 text-[var(--grey-500)] text-[0.88rem]">Maximum of {{ maximum }}</h3>
 
-    <ProgressBarElement :progress="spentPercentage" :progress-color="'bg-[var(--green)]'" />
+    <ProgressBarElement :progress="spentPercentage" :progress-color="color" />
 
     <div class="flex flex-wrap gap-4 items-center mt-4">
       <div class="inline-flex items-center gap-4 flex-1">
@@ -63,12 +70,14 @@ const dotsImageSrc =
       class="mt-5 !bg-[var(--beige-100)] !p-4"
     >
       <div class="mt-8 flex flex-col gap-6">
-        <!-- <TransactionCardElement
-          v-for="(transactionItem, index) in []"
-          :key="transactionItem.name"
-          v-bind="transactionItem"
-          :show-line="transactionsRef.length !== index + 1"
-        /> -->
+        <TransactionCardElement
+          v-for="(item, index) in spendings"
+          :key="item.name"
+          :list-item="item"
+          :show-line="spendings.length !== index + 1"
+          :hide-image="!isDesktop"
+          borderClass="!bg-[#69686826]"
+        />
       </div>
     </CardContentElement>
   </div>

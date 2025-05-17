@@ -111,7 +111,7 @@ const balanceRef = formatStoreSection(homeStore.balanceOverview, 2);
             <TransactionCardElement
               v-for="(transactionItem, index) in transactionsRef"
               :key="transactionItem.name"
-              v-bind="transactionItem"
+              :list-item="transactionItem"
               :show-line="transactionsRef.length !== index + 1"
             />
           </div>

@@ -78,7 +78,7 @@ const onCategorySelect = (category: string) => transactionStore.onSetCategory(ca
           v-else
           v-for="(transactionItem, index) in filteredTransactions"
           :key="transactionItem.uuid"
-          v-bind="transactionItem"
+          :list-item="transactionItem"
           :show-line="filteredTransactions.length !== index + 1"
         />
 
