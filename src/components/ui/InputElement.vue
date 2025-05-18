@@ -1,9 +1,11 @@
 <script setup lang="ts">
 defineProps<{
   label: string;
+  modelValue: string | number | null;
+
   type?: string;
+  placeholder?: string;
   customInputClass?: string;
-  modelValue: string;
 }>();
 
 const emit = defineEmits(['update:modelValue']);
@@ -20,9 +22,10 @@ const emit = defineEmits(['update:modelValue']);
 
       <input
         :type="type || 'text'"
-        class="w-full py-3 px-5 border-[0.06rem] border-[var(--beige-500)] rounded-[0.5rem] leading-[0.313rem]"
+        class="w-full py-3 px-5 border-[0.06rem] border-[var(--beige-500)] rounded-[0.5rem] leading-[0.313rem] text-[0.88rem]"
         :class="customInputClass"
         :value="modelValue"
+        :placeholder="placeholder"
         @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       />
     </div>
