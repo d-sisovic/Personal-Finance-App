@@ -73,16 +73,13 @@ const budgetChartsRef = computed(() => {
   return { values, current: formatToNiceNumber(current, 0), limit: formatToNiceNumber(limit, 0) };
 });
 
-const spendingsRef = computed(
-  () =>
-    Object.entries(budgetStore.summary).reduce(
-      (acc, [key, value]) => ({
-        ...acc,
-        [key]: formatToNiceNumber(value, 2),
-      }),
-      {},
-    ) as Record<keyof typeof budgetStore.summary, string>,
-);
+const usedColors = computed(() => budgetStore.budgetItems.map(({ color }) => color));
+
+const preselectedColor = computed(() => {
+  const firstAvailableColor = themeDropdown.find((item) => !usedColors.value.includes(item.color));
+
+  return firstAvailableColor || null;
+});
 
 const onToggleAddBudgetVisibility = () => (showModal.value = !showModal.value);
 </script>
@@ -100,9 +97,8 @@ const onToggleAddBudgetVisibility = () => (showModal.value = !showModal.value);
     <SelectElement
       :preselected-item="categoryDropdown[0]"
       label="Budget Category"
-      :used-values="[]"
       :dropdown-values="categoryDropdown"
-      @set-value="(val) => (budgetCategory = val)"
+      @set-value="(value) => (budgetCategory = value)"
       class="mb-4"
     />
 
@@ -122,12 +118,11 @@ const onToggleAddBudgetVisibility = () => (showModal.value = !showModal.value);
     </InputElement>
 
     <SelectElement
-      :preselected-item="themeDropdown[0]"
       label="Theme"
-      :used-values="[]"
+      :used-color-values="usedColors"
       :dropdown-values="themeDropdown"
-      @set-value="(val) => (theme = val)"
-      preselected-color-class="h-4 w-4 rounded-full bg-[var(--green)] block"
+      :preselected-item="preselectedColor"
+      @set-value="(value) => (theme = value)"
       class="mb-4"
     />
 
@@ -165,39 +160,24 @@ const onToggleAddBudgetVisibility = () => (showModal.value = !showModal.value);
               </h3>
 
               <div class="flex flex-col">
-                <BudgetInfoCardElement
-                  label="Bills"
-                  color="bg-[var(--cyan)]"
-                  :current="spendingsRef.billsCurrent"
-                  :total="spendingsRef.billsTotal"
-                />
+                <template
+                  :key="uuid"
+                  v-for="(
+                    { uuid, label, color, spent, maxAllowed }, index
+                  ) in budgetStore.budgetItems"
+                >
+                  <BudgetInfoCardElement
+                    :label="label"
+                    :color="color"
+                    :current="formatToNiceNumber(spent, 2)"
+                    :total="formatToNiceNumber(maxAllowed, 2)"
+                  />
 
-                <div class="my-[0.906rem] w-full h-[1px] bg-[var(--grey-100)]"></div>
-
-                <BudgetInfoCardElement
-                  label="Dining Out"
-                  color="bg-[var(--yellow)]"
-                  :current="spendingsRef.diningOutCurrent"
-                  :total="spendingsRef.dinningOutTotal"
-                />
-
-                <div class="my-[0.906rem] w-full h-[1px] bg-[var(--grey-100)]"></div>
-
-                <BudgetInfoCardElement
-                  label="Personal Care"
-                  color="bg-[var(--navy)]"
-                  :current="spendingsRef.personalCareCurrent"
-                  :total="spendingsRef.personalCareTotal"
-                />
-
-                <div class="my-[0.906rem] w-full h-[1px] bg-[var(--grey-100)]"></div>
-
-                <BudgetInfoCardElement
-                  label="Entertainment"
-                  color="bg-[var(--green)]"
-                  :current="spendingsRef.entertainmentCurrent"
-                  :total="spendingsRef.entertainmentTotal"
-                />
+                  <div
+                    class="my-[0.906rem] w-full h-[1px] bg-[var(--grey-100)]"
+                    v-if="budgetStore.budgetItems.length - 1 !== index"
+                  ></div>
+                </template>
               </div>
             </div>
           </div>
@@ -206,36 +186,16 @@ const onToggleAddBudgetVisibility = () => (showModal.value = !showModal.value);
 
       <div class="flex-1">
         <BudgetInfoCardDetailElement
-          label="Entertainment"
-          color="bg-[var(--green)]"
-          :spent="spendingsRef.entertainmentCurrent"
-          :maximum="spendingsRef.entertainmentTotal"
-          :spendings="budgetStore.spendings"
-          spacing-top-class="desktop:mt-0"
-        />
-
-        <BudgetInfoCardDetailElement
-          label="Bills"
-          color="bg-[var(--cyan)]"
-          :spent="spendingsRef.billsCurrent"
-          :maximum="spendingsRef.billsTotal"
-          :spendings="budgetStore.spendings"
-        />
-
-        <BudgetInfoCardDetailElement
-          label="Dining Out"
-          color="bg-[var(--yellow)]"
-          :spent="spendingsRef.diningOutCurrent"
-          :maximum="spendingsRef.dinningOutTotal"
-          :spendings="budgetStore.spendings"
-        />
-
-        <BudgetInfoCardDetailElement
-          label="Personal Care"
-          color="bg-[var(--navy)]"
-          :spent="spendingsRef.personalCareCurrent"
-          :maximum="spendingsRef.personalCareTotal"
-          :spendings="budgetStore.spendings"
+          :key="uuid"
+          :label="label"
+          :color="color"
+          :spent="formatToNiceNumber(spent, 2)"
+          :maximum="formatToNiceNumber(maxAllowed, 2)"
+          :spendings="spendings"
+          :spacing-top-class="index === 0 ? 'desktop:mt-0' : ''"
+          v-for="(
+            { uuid, label, color, spent, maxAllowed, spendings }, index
+          ) in budgetStore.budgetItems"
         />
       </div>
     </div>

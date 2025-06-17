@@ -1,9 +1,8 @@
 import { defineStore } from 'pinia';
 import { getRandomDate, getRandomItem, getRandomValue } from '@/util';
 
-const images = ['bytewise.jpg', 'urban-services-hub.jpg', 'nimbus-data-storage.jpg'];
-
 const names = ['Papa Software', 'Quebec Services', 'Romeo Cloud Service'];
+const images = ['bytewise.jpg', 'urban-services-hub.jpg', 'nimbus-data-storage.jpg'];
 
 const spendings = Array.from({ length: 3 }, (_, index: number) => ({
   uuid: `${index}`,
@@ -13,6 +12,41 @@ const spendings = Array.from({ length: 3 }, (_, index: number) => ({
   date: getRandomDate(),
 }));
 
+const budgetItems = [
+  {
+    uuid: '0',
+    label: 'Entertainment',
+    color: 'bg-[var(--green)]',
+    spent: 25,
+    maxAllowed: 50,
+    spendings,
+  },
+  {
+    uuid: '1',
+    label: 'Bills',
+    color: 'bg-[var(--cyan)]',
+    spent: 250,
+    maxAllowed: 750,
+    spendings,
+  },
+  {
+    uuid: '2',
+    label: 'Dining Out',
+    color: 'bg-[var(--yellow)]',
+    spent: 67,
+    maxAllowed: 75,
+    spendings,
+  },
+  {
+    uuid: '3',
+    label: 'Personal Care',
+    color: 'bg-[var(--navy)]',
+    spent: 65,
+    maxAllowed: 100,
+    spendings,
+  },
+];
+
 export const useBudgetStore = defineStore('budget', {
   state: () => ({
     budgetsChart: {
@@ -20,17 +54,8 @@ export const useBudgetStore = defineStore('budget', {
       limit: 975,
       values: [25, 250, 67, 65],
     },
-    summary: {
-      billsCurrent: 250,
-      billsTotal: 750,
-      diningOutCurrent: 67,
-      dinningOutTotal: 75,
-      personalCareCurrent: 65,
-      personalCareTotal: 100,
-      entertainmentCurrent: 25,
-      entertainmentTotal: 50,
-    },
     spendings,
+    budgetItems,
   }),
   actions: {},
 });

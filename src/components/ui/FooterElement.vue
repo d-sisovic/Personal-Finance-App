@@ -42,18 +42,6 @@ const menuItemsRef = ref([
     label: 'Budgets',
     image: images['/src/assets/images/icon-nav-budgets.svg']?.default || '',
   },
-  {
-    route: ROUTES.POTS,
-    isActive: false,
-    label: 'Pots',
-    image: images['/src/assets/images/icon-nav-pots.svg']?.default || '',
-  },
-  {
-    route: ROUTES.RECURRING_BILLS,
-    isActive: false,
-    label: 'Recurring bills',
-    image: images['/src/assets/images/icon-nav-recurring-bills.svg']?.default || '',
-  },
 ]);
 
 const menuItems = computed(() =>

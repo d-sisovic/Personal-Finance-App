@@ -9,17 +9,17 @@ interface IDropdownValue {
 
 const props = defineProps<{
   label: string;
-  preselectedItem: IDropdownValue;
   dropdownValues: IDropdownValue[];
-  usedValues: string[];
-  preselectedColorClass?: string;
+  preselectedItem: IDropdownValue | null;
+
+  usedColorValues?: string[];
 }>();
 
 const emit = defineEmits(['setValue']);
-
 const dropdownVisibleRef = ref<boolean>(false);
 const dropdownRef = ref<HTMLElement | null>(null);
-const selectedItem = ref<IDropdownValue>(props.preselectedItem);
+const colorClassRef = ref<string>(props.preselectedItem?.color || '');
+const selectedItem = ref<IDropdownValue | null>(props.preselectedItem);
 
 const onToggleDropdownVisibility = () => (dropdownVisibleRef.value = !dropdownVisibleRef.value);
 
@@ -30,13 +30,15 @@ const handleClickOutside = (event: MouseEvent) => {
 };
 
 const onSelectItem = (item: IDropdownValue) => {
-  if (props.usedValues.includes(item.value)) return;
+  if (props.usedColorValues?.includes(item?.color || '')) return;
 
   emit('setValue', item.value);
 
   onToggleDropdownVisibility();
 
   selectedItem.value = item;
+
+  colorClassRef.value = item.color || '';
 };
 
 const images = import.meta.glob('@/assets/images/*', { eager: true });
@@ -64,10 +66,10 @@ onUnmounted(() => {
         class="w-full py-3 px-5 mt-1 border-[0.06rem] border-[var(--beige-500)] rounded-[0.5rem] text-[0.88rem] leading-[137%] flex flex-wrap items-center justify-between cursor-pointer"
         @click="onToggleDropdownVisibility"
       >
-        <div :class="preselectedColorClass ? 'inline-flex items-center gap-3' : ''">
-          <span :class="preselectedColorClass"></span>
+        <div :class="colorClassRef ? 'inline-flex items-center gap-3' : ''">
+          <span :class="colorClassRef ? `h-4 w-4 rounded-full block ${colorClassRef}` : ''"></span>
 
-          <span>{{ selectedItem.label }}</span>
+          <span v-if="selectedItem">{{ selectedItem.label }}</span>
         </div>
 
         <img :src="arrowImageSrc" alt="arrow" />
@@ -83,7 +85,7 @@ onUnmounted(() => {
           <div
             :class="[
               item.color ? 'inline-flex items-center gap-3' : '',
-              usedValues.includes(item.value) ? 'opacity-20' : '',
+              usedColorValues?.includes(item.color || '') ? 'opacity-20' : '',
             ]"
           >
             <span class="h-4 w-4 block rounded-full" :class="item.color" v-if="item.color"></span>
@@ -93,7 +95,7 @@ onUnmounted(() => {
 
           <span
             class="text-[0.75rem] text-[var(--grey-500)]"
-            v-if="usedValues.includes(item.value)"
+            v-if="usedColorValues?.includes(item.color || '')"
           >
             Already used
           </span>

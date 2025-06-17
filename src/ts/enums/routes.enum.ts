@@ -5,7 +5,5 @@ export enum ROUTES {
   SIGNUP = 'signup',
   TRANSACTIONS = 'transactions',
   BUDGETS = 'budgets',
-  POTS = 'pots',
   NOT_FOUND = 'not-found',
-  RECURRING_BILLS = 'recurring-bills',
 }
