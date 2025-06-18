@@ -57,5 +57,21 @@ export const useBudgetStore = defineStore('budget', {
     spendings,
     budgetItems,
   }),
-  actions: {},
+  actions: {
+    addNewBudget(color: string, maxAllowed: number, label: string) {
+      const uuid = `${this.$state.budgetItems.length}`;
+
+      this.$state.budgetItems = [
+        ...this.$state.budgetItems,
+        {
+          uuid,
+          label,
+          color,
+          spent: 0,
+          spendings,
+          maxAllowed,
+        },
+      ];
+    },
+  },
 });

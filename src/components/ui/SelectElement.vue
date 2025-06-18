@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 
 interface IDropdownValue {
   label: string;
@@ -12,7 +12,7 @@ const props = defineProps<{
   dropdownValues: IDropdownValue[];
   preselectedItem: IDropdownValue | null;
 
-  usedColorValues?: string[];
+  usedValues?: string[];
 }>();
 
 const emit = defineEmits(['setValue']);
@@ -30,9 +30,7 @@ const handleClickOutside = (event: MouseEvent) => {
 };
 
 const onSelectItem = (item: IDropdownValue) => {
-  if (props.usedColorValues?.includes(item?.color || '')) return;
-
-  emit('setValue', item.value);
+  if (props.usedValues?.includes(item?.color || item.value || '')) return;
 
   onToggleDropdownVisibility();
 
@@ -53,6 +51,14 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
 });
+
+watch(
+  selectedItem,
+  (item: IDropdownValue | null) => {
+    emit('setValue', !item ? null : item.value);
+  },
+  { immediate: true },
+);
 </script>
 
 <template>
@@ -85,7 +91,7 @@ onUnmounted(() => {
           <div
             :class="[
               item.color ? 'inline-flex items-center gap-3' : '',
-              usedColorValues?.includes(item.color || '') ? 'opacity-20' : '',
+              usedValues?.includes(item.color || item.value || '') ? 'opacity-20' : '',
             ]"
           >
             <span class="h-4 w-4 block rounded-full" :class="item.color" v-if="item.color"></span>
@@ -95,7 +101,7 @@ onUnmounted(() => {
 
           <span
             class="text-[0.75rem] text-[var(--grey-500)]"
-            v-if="usedColorValues?.includes(item.color || '')"
+            v-if="usedValues?.includes(item.color || item.value || '')"
           >
             Already used
           </span>

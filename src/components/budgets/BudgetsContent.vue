@@ -45,7 +45,7 @@ const themeDropdown = [
     label: 'Turquoise',
     color: 'bg-[var(--turquoise)]',
   },
-].map((item) => ({ ...item, value: item.label }));
+].map((item) => ({ ...item, value: item.color }));
 
 const categoryDropdown = [
   'Entertainment',
@@ -60,11 +60,21 @@ const categoryDropdown = [
 const budgetStore = useBudgetStore();
 
 const onAddBudget = () => {
-  const themeValue = theme.value;
+  const themeColor = theme.value;
   const maxSpendValue = maximumSpend.value;
   const categoryValue = budgetCategory.value;
 
-  console.log(themeValue, maxSpendValue, categoryValue);
+  if (
+    !themeColor ||
+    !maxSpendValue ||
+    !categoryValue ||
+    !/^[+]?(?!0\d)\d+(\.\d+)?$/.test(maxSpendValue.toString())
+  )
+    return;
+
+  budgetStore.addNewBudget(themeColor, maxSpendValue, categoryValue);
+
+  onToggleModalVisibility();
 };
 
 const budgetChartsRef = computed(() => {
@@ -75,39 +85,50 @@ const budgetChartsRef = computed(() => {
 
 const usedColors = computed(() => budgetStore.budgetItems.map(({ color }) => color));
 
+const usedCategories = computed(() => budgetStore.budgetItems.map(({ label }) => label));
+
 const preselectedColor = computed(() => {
   const firstAvailableColor = themeDropdown.find((item) => !usedColors.value.includes(item.color));
 
   return firstAvailableColor || null;
 });
 
-const onToggleAddBudgetVisibility = () => (showModal.value = !showModal.value);
+const preselectedCategory = computed(() => {
+  const firstAvailableCategory = categoryDropdown.find(
+    (item) => !usedCategories.value.includes(item.label),
+  );
+
+  return firstAvailableCategory || null;
+});
+
+const onToggleModalVisibility = () => (showModal.value = !showModal.value);
 </script>
 
 <template>
   <ModalElement
     heading="Add New Budget"
     :show-modal="showModal"
-    @close-modal="onToggleAddBudgetVisibility"
+    @close-modal="onToggleModalVisibility"
   >
     <p class="my-5 text-[0.88rem] text-[var(--grey-500)]">
       Choose a category to set a spending budget. These categories can help you monitor spending.
     </p>
 
     <SelectElement
-      :preselected-item="categoryDropdown[0]"
       label="Budget Category"
+      :used-values="usedCategories"
       :dropdown-values="categoryDropdown"
+      :preselected-item="preselectedCategory"
       @set-value="(value) => (budgetCategory = value)"
       class="mb-4"
     />
 
     <InputElement
-      v-model="maximumSpend"
-      label="Maximum Spend"
-      type="number"
-      placeholder="e.g. 2000"
       class="mb-4"
+      type="number"
+      label="Maximum Spend"
+      v-model="maximumSpend"
+      placeholder="e.g. 2000"
       custom-input-class="!pl-[45px]"
     >
       <span
@@ -119,7 +140,7 @@ const onToggleAddBudgetVisibility = () => (showModal.value = !showModal.value);
 
     <SelectElement
       label="Theme"
-      :used-color-values="usedColors"
+      :used-values="usedColors"
       :dropdown-values="themeDropdown"
       :preselected-item="preselectedColor"
       @set-value="(value) => (theme = value)"
@@ -138,7 +159,7 @@ const onToggleAddBudgetVisibility = () => (showModal.value = !showModal.value);
       </h1>
 
       <div>
-        <ButtonElement label="+ Add New Budget" :click-handler="onToggleAddBudgetVisibility" />
+        <ButtonElement label="+ Add New Budget" :click-handler="onToggleModalVisibility" />
       </div>
     </div>
 
