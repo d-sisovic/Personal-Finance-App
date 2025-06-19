@@ -6,7 +6,7 @@ const props = defineProps<{
   showModal: boolean;
 }>();
 
-const emit = defineEmits(['close-modal']);
+const emits = defineEmits(['close-modal']);
 
 const images = import.meta.glob('@/assets/images/*', { eager: true });
 
@@ -40,7 +40,7 @@ onUnmounted(() => {
             :src="closeModalIcon"
             alt="close"
             class="cursor-pointer"
-            @click="emit('close-modal')"
+            @click="emits('close-modal')"
           />
         </div>
 

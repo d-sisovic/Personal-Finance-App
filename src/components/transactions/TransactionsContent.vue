@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import Dropdown from '../ui/DropdownElement.vue';
 import { useIsDesktop } from '@/hooks/useIsDesktop';
+import DropdownElement from '../ui/DropdownElement.vue';
 import { useTransactionStore } from '@/stores/transaction';
 import PaginationElement from '../ui/PaginationElement.vue';
 import CardContentElement from '../ui/CardContentElement.vue';
@@ -53,14 +53,14 @@ const onCategorySelect = (category: string) => transactionStore.onSetCategory(ca
         />
 
         <div class="flex gap-6">
-          <Dropdown
+          <DropdownElement
             imagePath="icon-sort-mobile.svg"
             :heading="'Sort by'"
             :dropdownItems="sortDropdownItems"
             :onSelectItem="onSortSelect"
           />
 
-          <Dropdown
+          <DropdownElement
             imagePath="icon-filter-mobile.svg"
             :heading="'Category'"
             :dropdownItems="filterDropdownItems"

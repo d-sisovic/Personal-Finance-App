@@ -2,77 +2,20 @@
 import { computed, ref } from 'vue';
 import { formatToNiceNumber } from '@/util';
 import { useBudgetStore } from '@/stores/budget';
-import InputElement from '../ui/InputElement.vue';
 import ModalElement from '../ui/ModalElement.vue';
-import SelectElement from '../ui/SelectElement.vue';
 import ButtonElement from '../ui/ButtonElement.vue';
 import CardContentElement from '../ui/CardContentElement.vue';
+import CreateEditBudgetModal from './CreateEditBudgetModal.vue';
 import DoughnutChartElement from '../ui/DoughnutChartElement.vue';
 import BudgetInfoCardElement from '../ui/BudgetInfoCardElement.vue';
 import BudgetInfoCardDetailElement from '../ui/BudgetInfoCardDetailElement.vue';
 
-const theme = ref<string>('');
-const showModal = ref<boolean>(false);
-const budgetCategory = ref<string>('');
-const maximumSpend = ref<number | null>(null);
-
-const themeDropdown = [
-  {
-    label: 'Green',
-    color: 'bg-[var(--green)]',
-  },
-  {
-    label: 'Yellow',
-    color: 'bg-[var(--yellow)]',
-  },
-  {
-    label: 'Cyan',
-    color: 'bg-[var(--cyan)]',
-  },
-  {
-    label: 'Navy',
-    color: 'bg-[var(--navy)]',
-  },
-  {
-    label: 'Red',
-    color: 'bg-[var(--red)]',
-  },
-  {
-    label: 'Purple',
-    color: 'bg-[var(--purple)]',
-  },
-  {
-    label: 'Turquoise',
-    color: 'bg-[var(--turquoise)]',
-  },
-].map((item) => ({ ...item, value: item.color }));
-
-const categoryDropdown = [
-  'Entertainment',
-  'Bills',
-  'Groceries',
-  'Dining Out',
-  'Transportation',
-  'Personal Care',
-  'Education',
-].map((item) => ({ label: item, value: item }));
-
 const budgetStore = useBudgetStore();
 
-const onAddBudget = () => {
-  const themeColor = theme.value;
-  const maxSpendValue = maximumSpend.value;
-  const categoryValue = budgetCategory.value;
+const showModalRef = ref<boolean>(false);
 
-  if (
-    !themeColor ||
-    !maxSpendValue ||
-    !categoryValue ||
-    !/^[+]?(?!0\d)\d+(\.\d+)?$/.test(maxSpendValue.toString())
-  )
-    return;
-
-  budgetStore.addNewBudget(themeColor, maxSpendValue, categoryValue);
+const onAddBudget = (color: string, maxAllowed: number, label: string) => {
+  budgetStore.addNewBudget(color, maxAllowed, label);
 
   onToggleModalVisibility();
 };
@@ -83,71 +26,23 @@ const budgetChartsRef = computed(() => {
   return { values, current: formatToNiceNumber(current, 0), limit: formatToNiceNumber(limit, 0) };
 });
 
-const usedColors = computed(() => budgetStore.budgetItems.map(({ color }) => color));
-
-const usedCategories = computed(() => budgetStore.budgetItems.map(({ label }) => label));
-
-const preselectedColor = computed(() => {
-  const firstAvailableColor = themeDropdown.find((item) => !usedColors.value.includes(item.color));
-
-  return firstAvailableColor || null;
-});
-
-const preselectedCategory = computed(() => {
-  const firstAvailableCategory = categoryDropdown.find(
-    (item) => !usedCategories.value.includes(item.label),
-  );
-
-  return firstAvailableCategory || null;
-});
-
-const onToggleModalVisibility = () => (showModal.value = !showModal.value);
+const onToggleModalVisibility = () => (showModalRef.value = !showModalRef.value);
 </script>
 
 <template>
   <ModalElement
     heading="Add New Budget"
-    :show-modal="showModal"
+    :show-modal="showModalRef"
     @close-modal="onToggleModalVisibility"
   >
-    <p class="my-5 text-[0.88rem] text-[var(--grey-500)]">
-      Choose a category to set a spending budget. These categories can help you monitor spending.
-    </p>
-
-    <SelectElement
-      label="Budget Category"
-      :used-values="usedCategories"
-      :dropdown-values="categoryDropdown"
-      :preselected-item="preselectedCategory"
-      @set-value="(value) => (budgetCategory = value)"
-      class="mb-4"
+    <CreateEditBudgetModal
+      @accept="onAddBudget"
+      :buttonLabel="'Add Budget'"
+      :preselected-color="null"
+      :preselected-category="null"
+      :preselectedMaxSpending="null"
+      :heading="'Choose a category to set a spending budget. These categories can help you monitor spending.'"
     />
-
-    <InputElement
-      class="mb-4"
-      type="number"
-      label="Maximum Spend"
-      v-model="maximumSpend"
-      placeholder="e.g. 2000"
-      custom-input-class="!pl-[45px]"
-    >
-      <span
-        class="absolute top-[50%] translate-y-[-50%] left-[21px] text-[0.88rem] text-[var(--beige-500)] leading-[150%]"
-      >
-        $
-      </span>
-    </InputElement>
-
-    <SelectElement
-      label="Theme"
-      :used-values="usedColors"
-      :dropdown-values="themeDropdown"
-      :preselected-item="preselectedColor"
-      @set-value="(value) => (theme = value)"
-      class="mb-4"
-    />
-
-    <ButtonElement label="Add Budget" :click-handler="onAddBudget" />
   </ModalElement>
 
   <div class="py-6 px-4 tablet:py-8 tablet:px-10 desktop:py-8 desktop:px-10">
@@ -163,7 +58,7 @@ const onToggleModalVisibility = () => (showModal.value = !showModal.value);
       </div>
     </div>
 
-    <div class="desktop:flex desktop:gap-6">
+    <div class="desktop:flex desktop:gap-6" v-if="budgetStore.budgetItems.length">
       <div class="flex-1 desktop:max-w-[26.75rem]">
         <CardContentElement heading="" actionLabel="">
           <div
@@ -220,5 +115,9 @@ const onToggleModalVisibility = () => (showModal.value = !showModal.value);
         />
       </div>
     </div>
+
+    <p class="text-[var(--grey-500)] text-[0.88rem]" v-else>
+      There are no budgets defined yet. Please add a new budget.
+    </p>
   </div>
 </template>

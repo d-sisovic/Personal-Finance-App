@@ -73,5 +73,13 @@ export const useBudgetStore = defineStore('budget', {
         ...this.$state.budgetItems,
       ];
     },
+    editBudget(color: string, maxAllowed: number, label: string) {
+      this.$state.budgetItems = this.$state.budgetItems.map((item) =>
+        item.label !== label ? item : { ...item, color, maxAllowed },
+      );
+    },
+    deleteBudget(label: string) {
+      this.$state.budgetItems = this.$state.budgetItems.filter((item) => item.label !== label);
+    },
   },
 });

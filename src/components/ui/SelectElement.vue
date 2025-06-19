@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watch } from 'vue';
-
-interface IDropdownValue {
-  label: string;
-  value: string;
-  color?: string;
-}
+import type { IDropdownValue } from '@/ts/interfaces/dropdown-item.model';
 
 const props = defineProps<{
   label: string;
@@ -15,7 +10,8 @@ const props = defineProps<{
   usedValues?: string[];
 }>();
 
-const emit = defineEmits(['setValue']);
+const emits = defineEmits(['setValue']);
+
 const dropdownVisibleRef = ref<boolean>(false);
 const dropdownRef = ref<HTMLElement | null>(null);
 const colorClassRef = ref<string>(props.preselectedItem?.color || '');
@@ -55,7 +51,7 @@ onUnmounted(() => {
 watch(
   selectedItem,
   (item: IDropdownValue | null) => {
-    emit('setValue', !item ? null : item.value);
+    emits('setValue', !item ? null : item.value);
   },
   { immediate: true },
 );
