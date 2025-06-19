@@ -62,7 +62,6 @@ export const useBudgetStore = defineStore('budget', {
       const uuid = `${this.$state.budgetItems.length}`;
 
       this.$state.budgetItems = [
-        ...this.$state.budgetItems,
         {
           uuid,
           label,
@@ -71,6 +70,7 @@ export const useBudgetStore = defineStore('budget', {
           spendings,
           maxAllowed,
         },
+        ...this.$state.budgetItems,
       ];
     },
   },
