@@ -52,11 +52,6 @@ const preselectedMaxSpending = computed(() => props.maximum.replace('$', ''));
 const spentPercentage =
   (formatStringToNumber(props.spent) / formatStringToNumber(props.maximum)) * 100;
 
-const images = import.meta.glob('@/assets/images/*', { eager: true });
-
-const dotsImageSrc =
-  (images[`/src/assets/images/icon-ellipsis.svg`] as Record<string, string>)?.default || '';
-
 const closeModal = () => (selectedModalRef.value = null);
 
 const onSelectAction = (value: MODAL_ACTION) => (selectedModalRef.value = value);
@@ -123,7 +118,7 @@ const onEditBudget = (color: string, maxAllowed: number, label: string) => {
       </div>
 
       <img
-        :src="dotsImageSrc"
+        src="@/assets/images/icon-ellipsis.svg"
         alt="dots"
         ref="dotActionRef"
         class="cursor-pointer py-1"

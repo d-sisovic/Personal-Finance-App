@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onUnmounted, watch } from 'vue';
+import { onUnmounted, watch } from 'vue';
 
 const props = defineProps<{
   heading: string;
@@ -7,13 +7,6 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits(['close-modal']);
-
-const images = import.meta.glob('@/assets/images/*', { eager: true });
-
-const closeModalIcon = computed(
-  () =>
-    (images[`/src/assets/images/icon-close-modal.svg`] as Record<string, string>)?.default || '',
-);
 
 watch(
   () => props.showModal,
@@ -37,7 +30,7 @@ onUnmounted(() => {
           <h3 class="text-[1.25rem] font-bold leading-[120%]">{{ heading }}</h3>
 
           <img
-            :src="closeModalIcon"
+            src="@/assets/images/icon-close-modal.svg"
             alt="close"
             class="cursor-pointer"
             @click="emits('close-modal')"

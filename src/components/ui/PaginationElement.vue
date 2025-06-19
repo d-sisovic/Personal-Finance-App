@@ -10,7 +10,7 @@ const getNumberOfPagesToRender = (isDesktop: boolean) => (isDesktop ? 5 : 2);
 
 const getInitialPageValue = (isDesktop: boolean) => (isDesktop ? [1, 2, 3, 4, 5] : [1, 2]);
 
-const emit = defineEmits(['selected-page']);
+const emits = defineEmits(['selected-page']);
 
 const { isDesktop } = useIsDesktop();
 
@@ -76,7 +76,7 @@ const onExpandPages = () => {
   selectedPageRef.value = biggestValueBeforeExpand + 1;
 };
 
-watch(selectedPageRef, (newValue) => emit('selected-page', newValue));
+watch(selectedPageRef, (newValue) => emits('selected-page', newValue));
 
 watch(isDesktop, (isDesktop) => (availableDynamicPagesRef.value = getInitialPageValue(isDesktop)));
 </script>

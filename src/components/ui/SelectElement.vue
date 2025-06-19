@@ -35,11 +35,6 @@ const onSelectItem = (item: IDropdownValue) => {
   colorClassRef.value = item.color || '';
 };
 
-const images = import.meta.glob('@/assets/images/*', { eager: true });
-
-const arrowImageSrc =
-  (images['/src/assets/images/icon-caret-down.svg'] as Record<string, string>)?.default || '';
-
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
 });
@@ -74,7 +69,7 @@ watch(
           <span v-if="selectedItem">{{ selectedItem.label }}</span>
         </div>
 
-        <img :src="arrowImageSrc" alt="arrow" />
+        <img src="@/assets/images/icon-caret-down.svg" alt="arrow" />
       </div>
     </div>
 

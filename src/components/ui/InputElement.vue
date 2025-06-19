@@ -8,7 +8,7 @@ defineProps<{
   customInputClass?: string;
 }>();
 
-const emit = defineEmits(['update:modelValue']);
+const emits = defineEmits(['update:modelValue']);
 </script>
 
 <template>
@@ -26,7 +26,7 @@ const emit = defineEmits(['update:modelValue']);
         :class="customInputClass"
         :value="modelValue"
         :placeholder="placeholder"
-        @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+        @input="emits('update:modelValue', ($event.target as HTMLInputElement).value)"
       />
     </div>
   </div>

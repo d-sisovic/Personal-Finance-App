@@ -23,9 +23,6 @@ const images = import.meta.glob('@/assets/images/*', { eager: true });
 const imageSrc =
   (images[`/src/assets/images/${props.imagePath}`] as Record<string, string>)?.default || '';
 
-const arrowDownSrc =
-  (images[`/src/assets/images/icon-caret-down.svg`] as Record<string, string>)?.default || '';
-
 const selectDropdownItems = props.dropdownItems.map((item) => ({ label: item, value: item }));
 
 const handleSelectItem = (value: string) => {
@@ -55,7 +52,7 @@ const handleSelectItem = (value: string) => {
       >
         {{ selectedValueRef }}
 
-        <img :src="arrowDownSrc" alt="arrow-down" />
+        <img src="@/assets/images/icon-caret-down.svg" alt="arrow-down" />
       </div>
     </div>
 

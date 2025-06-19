@@ -11,8 +11,8 @@ withDefaults(
   },
 );
 
-const emit = defineEmits(['update-filter-input' as string]);
-const debouncedEmit = useDebouncedEmit(emit, 'update-filter-input', 300);
+const emits = defineEmits(['update-filter-input' as string]);
+const debouncedEmit = useDebouncedEmit(emits, 'update-filter-input', 300);
 </script>
 
 <template>

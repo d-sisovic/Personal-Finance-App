@@ -1,21 +1,18 @@
 <script setup lang="ts">
-import { useRootStore } from '@/stores/root';
-import FooterElement from '@/components/ui/FooterElement.vue';
+import { provide, ref } from 'vue';
+import { GLOBAL_VARS } from '@/ts/enums/global-vars.enum';
+import RootContent from '@/components/root/RootContent.vue';
 import SidenavElement from '@/components/ui/SidenavElement.vue';
 
-const rootStore = useRootStore();
+const shrinkedSidebarRef = ref<boolean>(false);
+
+provide(GLOBAL_VARS.SHRINKED_SIDEBAR, shrinkedSidebarRef);
 </script>
 
 <template>
   <div class="bg-[var(--beige-100)] desktop:flex desktop:flex-row min-h-screen">
     <SidenavElement class="hidden desktop:block" />
 
-    <div
-      :class="`flex flex-col justify-between flex-1 relative min-h-[inherit] ${!rootStore.shrinkedSidebar ? 'desktop:ml-[18.75rem]' : 'desktop:ml-[5.5rem]'}`"
-    >
-      <router-view></router-view>
-
-      <FooterElement />
-    </div>
+    <RootContent />
   </div>
 </template>

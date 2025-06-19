@@ -1,22 +1,20 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { useRootStore } from '@/stores/root';
 import { ROUTES } from '@/ts/enums/routes.enum';
 import { useRoute, useRouter } from 'vue-router';
+import { computed, inject, ref, type Ref } from 'vue';
+import { GLOBAL_VARS } from '@/ts/enums/global-vars.enum';
 
 defineProps({
   desktopMode: Boolean,
 });
 
+const shrinkedSidebarRef = inject<Ref<boolean>>(GLOBAL_VARS.SHRINKED_SIDEBAR)!;
+
 const route = useRoute();
 
 const router = useRouter();
 
-const rootStore = useRootStore();
-
-const shrinkedSidebar = computed(() => rootStore.shrinkedSidebar);
-
-const emit = defineEmits(['toggle-menu']);
+const emits = defineEmits(['toggle-menu']);
 
 const images = import.meta.glob('@/assets/images/*', { eager: true }) as Record<
   string,
@@ -74,7 +72,7 @@ const containerClass = computed(
       w-full bg-[var(--grey-900)] rounded-t-md rounded-b-none pt-2 px-4 pb-0 h-[3.25rem] flex justify-around items-center tablet:h-[4.625rem] tablet:px-10`,
 );
 
-const onToggleMenu = () => emit('toggle-menu');
+const onToggleMenu = () => emits('toggle-menu');
 
 const onClickNavItem = (path: ROUTES) => router.push({ path });
 </script>
@@ -93,7 +91,7 @@ const onClickNavItem = (path: ROUTES) => router.push({ path });
         :class="`tablet:w-6 tablet:h-6 ${isActive ? 'green-filter' : ''}`"
       />
 
-      <span :class="navItemLabelClass(isActive, desktopMode)" v-if="!shrinkedSidebar">
+      <span :class="navItemLabelClass(isActive, desktopMode)" v-if="!shrinkedSidebarRef">
         {{ label }}
       </span>
     </div>
@@ -105,11 +103,11 @@ const onClickNavItem = (path: ROUTES) => router.push({ path });
       <img
         src="@/assets/images/icon-minimize-menu.svg"
         alt="minimize"
-        :class="`${!shrinkedSidebar ? '' : 'rotate-180'} w-6 h-6`"
+        :class="`${!shrinkedSidebarRef ? '' : 'rotate-180'} w-6 h-6`"
       />
 
       <span
-        v-if="!shrinkedSidebar"
+        v-if="!shrinkedSidebarRef"
         class="text-[var(--grey-300)] text-[1rem] leading-[150%] font-bold whitespace-nowrap cursor-pointer left-0 right-[1.5rem]"
       >
         Minimize Menu

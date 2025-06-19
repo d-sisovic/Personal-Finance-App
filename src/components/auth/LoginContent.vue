@@ -11,12 +11,12 @@ import SpinnerElement from '../ui/SpinnerElement.vue';
 import AuthLeftDesktopSection from './AuthLeftDesktopSection.vue';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
-const email = ref<string>('');
-const password = ref<string>('');
+const emailRef = ref<string>('');
+const passwordRef = ref<string>('');
 
-const isCheckingAuth = ref<boolean>(true);
-const passwordVisible = ref<boolean>(false);
-const loginInProgress = ref<boolean>(false);
+const isCheckingAuthRef = ref<boolean>(true);
+const passwordVisibleRef = ref<boolean>(false);
+const loginInProgressRef = ref<boolean>(false);
 
 const router = useRouter();
 const snackbar = useSnackbar();
@@ -32,24 +32,24 @@ onBeforeMount(async () => {
       return;
     }
 
-    isCheckingAuth.value = false;
+    isCheckingAuthRef.value = false;
   });
 });
 
 const onLogin = async () => {
-  loginInProgress.value = true;
+  loginInProgressRef.value = true;
 
   try {
-    await signInWithEmailAndPassword(auth, email.value, password.value);
+    await signInWithEmailAndPassword(auth, emailRef.value, passwordRef.value);
     router.push({ name: ROUTES.HOME });
   } catch (error: unknown) {
     snackbar.add({ type: 'error', text: (error as Error).message });
   } finally {
-    loginInProgress.value = false;
+    loginInProgressRef.value = false;
   }
 };
 
-const onTogglePasswordVisibility = (visible: boolean) => (passwordVisible.value = visible);
+const onTogglePasswordVisibility = (visible: boolean) => (passwordVisibleRef.value = visible);
 
 onBeforeMount(() => {
   onAuthStateChanged(auth, (user) => {
@@ -58,13 +58,13 @@ onBeforeMount(() => {
       return;
     }
 
-    isCheckingAuth.value = false;
+    isCheckingAuthRef.value = false;
   });
 });
 </script>
 
 <template>
-  <div v-if="isCheckingAuth" class="flex justify-center items-center h-screen">
+  <div v-if="isCheckingAuthRef" class="flex justify-center items-center h-screen">
     <SpinnerElement size="3" />
   </div>
 
@@ -78,12 +78,12 @@ onBeforeMount(() => {
           Login
         </h3>
 
-        <InputElement v-model="email" label="Email" type="email" class="mb-4" />
+        <InputElement v-model="emailRef" label="Email" type="email" class="mb-4" />
 
         <InputElement
-          v-model="password"
+          v-model="passwordRef"
           label="Password"
-          :type="passwordVisible ? 'text' : 'password'"
+          :type="passwordVisibleRef ? 'text' : 'password'"
           class="mb-8"
           custom-input-class="pr-[2.5rem]"
         >
@@ -101,7 +101,7 @@ onBeforeMount(() => {
         </InputElement>
 
         <ButtonElement label="Login" :click-handler="onLogin" class="mb-8">
-          <SpinnerElement size="1.25" v-if="loginInProgress" />
+          <SpinnerElement size="1.25" v-if="loginInProgressRef" />
         </ButtonElement>
 
         <div class="text-[0.88rem] tablet:text-center">
