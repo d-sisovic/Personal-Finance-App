@@ -2,14 +2,14 @@ import { useFirebaseApp } from 'vuefire';
 import RootView from '../views/RootView.vue';
 import { ROUTES } from '@/ts/enums/routes.enum';
 import NotFoundView from '@/views/NotFoundView.vue';
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import HomeContent from '@/components/home/HomeContent.vue';
 import BudgetsContent from '@/components/budgets/BudgetsContent.vue';
 import TransactionsContent from '@/components/transactions/TransactionsContent.vue';
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
